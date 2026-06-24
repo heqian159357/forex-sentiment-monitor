@@ -18,6 +18,24 @@
 - **决策链路审计**：每次运行写 append-only 的 `audit.log`（含输入输出文件 sha256、prompt 哈希，防事后篡改）
 - **Markdown + HTML 报告**，自带中性免责声明与数据源 attribution
 
+## 📄 样例报告
+
+看看完整产出长什么样（真实数据，含行业视角传导链 + 分歧检测 + 分品种深度解读）：
+
+- [docs/sample-report/sample-report.md](docs/sample-report/sample-report.md)（Markdown）
+- [docs/sample-report/sample-report.html](docs/sample-report/sample-report.html)（下载后用浏览器打开，带样式与水印）
+
+## 🤖 LLM 分析用谁的算力？（重要）
+
+本工具的 LLM 复核（行业视角传导链、分品种深度解读）**借助你自己的 Claude Code 完成，无需单独配置任何 LLM API key**：
+
+| 你的用法 | 完整分析（传导链 + 深度解读） |
+|---|---|
+| 在 **Claude Code** 里用本 skill / plugin | ✅ Claude 自己执行复核，用的是**你自己的 Claude 订阅** |
+| **纯命令行**（不经 Claude Code） | ⚠️ 仅 VADER 算法兜底打分；要补 LLM 复核需自行接入任意 LLM 生成 `reviewed.json` |
+
+新闻数据源的 API key（Alpha Vantage / Finnhub / NewsAPI / CryptoPanic）也都是**填你自己的**、且全部可选——默认免费源 GDELT + RSS 无需任何 key。
+
 ## 🚀 快速开始
 
 ### 方式 1：作为 Claude Code Skill（推荐）

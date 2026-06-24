@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>舆情监控 · 2026-05-06 02:12:00</title>
+<style>
+  :root {
+    --bg: #0e1117;
+    --card: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #d4af37;
+    --red: #f85149;
+    --green: #3fb950;
+    --yellow: #d29922;
+  }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, "SF Mono", Menlo, monospace; margin: 0; padding: 24px; }
+  .container { max-width: 1100px; margin: 0 auto; }
+  h1 { color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+  h2 { color: var(--accent); margin-top: 32px; }
+  h3 { color: var(--text); }
+  .meta { color: var(--muted); font-size: 14px; margin-bottom: 16px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin: 12px 0; }
+  .sticky-summary { position: sticky; top: 0; background: var(--bg); padding: 12px 0; z-index: 10; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+  th, td { padding: 8px 12px; border-bottom: 1px solid var(--border); text-align: left; font-size: 14px; }
+  th { color: var(--accent); font-weight: 600; cursor: pointer; }
+  tr:hover { background: rgba(212,175,55,0.05); }
+  .bar-container { display: flex; flex-direction: column; gap: 8px; }
+  .bar-row { display: grid; grid-template-columns: 80px 1fr 80px 40px; align-items: center; gap: 8px; }
+  .bar-track { height: 20px; background: var(--border); border-radius: 4px; position: relative; overflow: hidden; }
+  .bar-fill { height: 100%; position: absolute; top: 0; }
+  .bar-center { position: absolute; left: 50%; top: 0; width: 1px; height: 100%; background: var(--muted); }
+  .alert { animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+  .divergence-card { border-left: 3px solid var(--yellow); }
+  .divergence-card h4 { margin-top: 0; color: var(--yellow); }
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .compare .side { background: var(--bg); padding: 10px; border-radius: 4px; }
+  .bullish { color: var(--green); }
+  .bearish { color: var(--red); }
+  .neutral { color: var(--muted); }
+  .filter-bar { margin: 16px 0; }
+  .filter-bar select { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 6px 10px; border-radius: 4px; }
+  details summary { cursor: pointer; color: var(--accent); padding: 8px 0; }
+  a { color: #58a6ff; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .footer { text-align: center; color: var(--muted); margin-top: 48px; font-size: 12px; }
+  .tier-banner { background: rgba(212,175,55,0.12); border: 1px solid var(--accent); color: var(--accent); padding: 10px 14px; border-radius: 6px; margin: 16px 0; font-weight: 600; letter-spacing: 0.5px; }
+  .disclaimer { background: var(--card); border-left: 3px solid var(--red); padding: 16px 20px; margin: 24px 0; line-height: 1.7; font-size: 13px; }
+  .disclaimer h3 { color: var(--red); margin-top: 0; }
+  .disclaimer ol { padding-left: 20px; }
+  .signoff td:first-child { color: var(--muted); width: 160px; }
+  body::before {
+    content: "仅供研究参考 · 不构成投资建议";
+    position: fixed; top: 50%; left: 50%;
+    transform: translate(-50%, -50%) rotate(-30deg);
+    font-size: 76px; color: rgba(212,175,55,0.05);
+    pointer-events: none; z-index: 0; white-space: nowrap;
+    font-weight: 700;
+  }
+  .container { position: relative; z-index: 1; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="sticky-summary">
+  <h1>舆情监控 · 2026-05-06 02:12:00</h1>
+  <div class="tier-banner">ℹ️ 仅供研究参考 — 不构成投资建议</div>
+  <div class="meta">
+    时间窗口 24h · 监控 BTC, ETH ·
+    <a href="2048-sentiment-report.md">↓ Markdown</a>
+  </div>
+</div>
+
+<div class="card">
+  <h3>Symbol 情绪分布</h3>
+  <div class="bar-container">
+    
+    <div class="bar-row" data-symbol="BTC">
+      <div>BTC</div>
+      <div class="bar-track">
+        <div class="bar-center"></div>
+        <div class="bar-fill "
+             style="
+              
+              left: 50%; width: 19.000000000000004%; background: var(--green);
+              
+             "></div>
+      </div>
+      <div>0.38</div>
+      <div></div>
+    </div>
+    
+    <div class="bar-row" data-symbol="ETH">
+      <div>ETH</div>
+      <div class="bar-track">
+        <div class="bar-center"></div>
+        <div class="bar-fill "
+             style="
+              
+              left: 50%; width: 9.0%; background: var(--green);
+              
+             "></div>
+      </div>
+      <div>0.18</div>
+      <div></div>
+    </div>
+    
+  </div>
+</div>
+
+
+<h2>情感分歧（API vs 行业视角）</h2>
+
+<div class="card divergence-card">
+  <h4>Ethereum technical analysis shows bulls crossing up this important resistance</h4>
+  <div class="meta">Forexlive · 2026-05-05 17:38 · 影响: ETH, BTC</div>
+  <div class="compare">
+    <div class="side">
+      <div class="meta">API 判断</div>
+      <div class="neutral">
+        N/A (-)
+      </div>
+    </div>
+    <div class="side">
+      <div class="meta">Claude 行业视角</div>
+      <div class="bullish">
+        0.30 (Somewhat-Bullish)
+      </div>
+    </div>
+  </div>
+  <p><strong>分歧原因：</strong>VADER 对技术分析文章的积极词汇（bulls/breakout/target）打到 +0.98，但技术面突破尚未确认、基本面无实质利多，行业视角明显下调</p>
+  
+  <details style="margin-top:10px;">
+    <summary style="cursor:pointer; color:var(--accent);">📖 判断依据（详细分析）</summary>
+    <p style="margin-top:8px; color:var(--muted); line-height:1.7;">关键信号：ETH 日线突破蓝色 bull flag，测试红色趋势线，与 BTC POC 上移同步；目标 3000 美元，风险是假突破。传导：日线形态转强 → 程序化/量化多头模型触发 → 短线买盘集中。打 0.3 而非 0.6：纯技术面文章，缺政策/资金面支撑；假突破风险未解除；medium impact：ETH 若站稳有 3-8% 上行，但反转可能快速回吐。</p>
+  </details>
+  
+</div>
+
+<div class="card divergence-card">
+  <h4>Aave files emergency motion to lift restraining notice on frozen ETH</h4>
+  <div class="meta">Cointelegraph · 2026-05-05 03:51 · 影响: ETH</div>
+  <div class="compare">
+    <div class="side">
+      <div class="meta">API 判断</div>
+      <div class="neutral">
+        N/A (-)
+      </div>
+    </div>
+    <div class="side">
+      <div class="meta">Claude 行业视角</div>
+      <div class="bearish">
+        -0.20 (Somewhat-Bearish)
+      </div>
+    </div>
+  </div>
+  <p><strong>分歧原因：</strong>VADER 捕获 'stolen/defies/logic' 等负面词给到 -0.87，但行业看这是 Aave 主动护盘行为，对 ETH 直接利空有限</p>
+  
+  <details style="margin-top:10px;">
+    <summary style="cursor:pointer; color:var(--accent);">📖 判断依据（详细分析）</summary>
+    <p style="margin-top:8px; color:var(--muted); line-height:1.7;">关键信号：Aave 向法院申请解除被冻结 ETH（Kelp 漏洞被盗资产）的限制令，指控对方法律论证荒谬。传导：DeFi 协议与传统法律体系冲突加深 → 机构对 ETH 上锁资产的合规属性重新评估 → 短线情绪负面但并非系统性利空。打 -0.2：单案司法争议，不构成监管趋势；低 impact：ETH 价格反应预计 <0.5%，但属长期合规主题。</p>
+  </details>
+  
+</div>
+
+<div class="card divergence-card">
+  <h4>Diet Coke parties: Iran war cans crisis fuels thirst for cola events in India - Reuters</h4>
+  <div class="meta">Reuters · 2026-05-05 09:41 · 影响: </div>
+  <div class="compare">
+    <div class="side">
+      <div class="meta">API 判断</div>
+      <div class="neutral">
+        N/A (-)
+      </div>
+    </div>
+    <div class="side">
+      <div class="meta">Claude 行业视角</div>
+      <div class="neutral">
+        0.00 (Neutral)
+      </div>
+    </div>
+  </div>
+  <p><strong>分歧原因：</strong>VADER 被负面词触发给到 -0.91，但文章与任何交易品种无实质传导，行业视角归零</p>
+  
+  <details style="margin-top:10px;">
+    <summary style="cursor:pointer; color:var(--accent);">📖 判断依据（详细分析）</summary>
+    <p style="margin-top:8px; color:var(--muted); line-height:1.7;">关键信号：伊朗战争导致罐装可乐供应紧张，印度兴起 Diet Coke 聚会话题。传导：消费品区域性话题 → 宏观品种无直接传导链条。打 0.0：仅 VADER 识别到 'war/crisis' 负面词触发 -0.91，本质是生活方式报道，行业视角归零。</p>
+  </details>
+  
+</div>
+
+<div class="card divergence-card">
+  <h4>Hugo Boss tops profit forecasts even as Iran war hits markets - Reuters</h4>
+  <div class="meta">Reuters · 2026-05-05 05:40 · 影响: </div>
+  <div class="compare">
+    <div class="side">
+      <div class="meta">API 判断</div>
+      <div class="neutral">
+        N/A (-)
+      </div>
+    </div>
+    <div class="side">
+      <div class="meta">Claude 行业视角</div>
+      <div class="neutral">
+        0.00 (Neutral)
+      </div>
+    </div>
+  </div>
+  <p><strong>分歧原因：</strong>VADER 被积极盈利描述捕获到 +0.56，但文章与交易品种无宏观传导链条</p>
+  
+  <details style="margin-top:10px;">
+    <summary style="cursor:pointer; color:var(--accent);">📖 判断依据（详细分析）</summary>
+    <p style="margin-top:8px; color:var(--muted); line-height:1.7;">关键信号：Hugo Boss 盈利超预期，报道附带提到伊朗战争对市场影响。传导：单一消费品公司业绩 → 对宏观交易品种无直接传导。打 0.0：VADER 被 'tops profit forecasts' 积极词捕获到 +0.56，行业视角归零。</p>
+  </details>
+  
+</div>
+
+
+
+<h2>当日焦点事件</h2>
+
+<div class="card">
+  <h4>1. Bitcoin ETFs pull in $532M as BTC reclaims $80K amid ‘post-ceasefire recovery’</h4>
+  <div class="meta">Cointelegraph · 2026-05-05 09:56</div>
+  <p><strong>行业解读：</strong>现货 BTC ETF 单日净流入 5.32 亿美元 → 资金面改善 → BTC 基本面利多</p>
+  <div class="meta">影响: BTC, ETH
+     · 情感: 0.60
+     · Impact: high</div>
+  
+  <details style="margin-top:8px;">
+    <summary style="cursor:pointer; color:var(--accent);">📖 判断依据（详细分析）</summary>
+    <p style="margin-top:8px; color:var(--muted); line-height:1.7;">关键信号：周一现货 BTC ETF 净流入 5.32 亿美元，BTC 重回 8 万美元，美-伊停火后风险偏好修复。传导：合规通道资金回流 → 机构托管/净多头仓位增加 → 现货供需紧张。打 0.6：ETF 流入是高含金量的机构行为信号，非技术盘；high impact：5 亿+ 级流入历史上对应 BTC 单周 3-5% 涨幅。</p>
+  </details>
+  
+  <a href="https://cointelegraph.com/news/spot-bitcoin-etfs-pull-in-520m-as-btc-reclaims-80000-amid-post-ceasefire-recovery?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank" style="display:inline-block; margin-top:10px;">查看原文 →</a>
+</div>
+
+<div class="card">
+  <h4>2. Bitcoin extends gains to $81,500 as tokenization push lifts Bullish, Galaxy, Centrifuge</h4>
+  <div class="meta">CoinDesk · 2026-05-05 18:52</div>
+  <p><strong>行业解读：</strong>代币化叙事升温 → 机构/合规资金入场 → BTC 受益</p>
+  <div class="meta">影响: BTC, ETH
+     · 情感: 0.50
+     · Impact: medium</div>
+  
+  <details style="margin-top:8px;">
+    <summary style="cursor:pointer; color:var(--accent);">📖 判断依据（详细分析）</summary>
+    <p style="margin-top:8px; color:var(--muted); line-height:1.7;">关键信号：BTC 续涨至 8.15 万美元，Bullish/Galaxy/Centrifuge 等代币化概念股被资金推升。传导：华尔街代币化推进 → RWA 叙事巩固 → 传统机构把 BTC 视作入口资产 → 多头情绪加强。打 0.5 而非 0.7：价格反应已兑现，边际叙事推动有限；中 impact：预期 BTC 再上 1-2% 空间。</p>
+  </details>
+  
+  <a href="https://www.coindesk.com/markets/2026/05/05/bitcoin-extends-gains-to-usd81-500-as-tokenization-push-lifts-bullish-galaxy-centrifuge" target="_blank" style="display:inline-block; margin-top:10px;">查看原文 →</a>
+</div>
+
+<div class="card">
+  <h4>3. Tennessee Bankers Association names Stablecore as preferred digital asset provider</h4>
+  <div class="meta">Cointelegraph · 2026-05-05 19:11</div>
+  <p><strong>行业解读：</strong>美国州级银行协会引入稳定币/代币化存款基础设施 → 合规加密入口扩张 → BTC/ETH 长期利多</p>
+  <div class="meta">影响: BTC, ETH
+     · 情感: 0.50
+     · Impact: medium</div>
+  
+  <details style="margin-top:8px;">
+    <summary style="cursor:pointer; color:var(--accent);">📖 判断依据（详细分析）</summary>
+    <p style="margin-top:8px; color:var(--muted); line-height:1.7;">关键信号：田纳西州银行家协会 (TBA) 将 Stablecore 指定为首选数字资产服务商，让地方银行以外包方式接入稳定币、代币化存款与加密抵押贷款。传导：州级银行业合规信号 → 稳定币发行链条扩大 → 链上美元供给增加 → BTC/ETH 作为底层结算资产需求上行。打 0.5：属政策面正面信号，但影响需数季度传导；high 级不到，medium 级：预期 BTC/ETH 1-2% 情绪溢价。</p>
+  </details>
+  
+  <a href="https://cointelegraph.com/news/tennessee-bankers-association-stablecore-digital-asset-provider?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank" style="display:inline-block; margin-top:10px;">查看原文 →</a>
+</div>
+
+
+<h2>Symbol 详情</h2>
+<div class="filter-bar">
+  筛选 Symbol:
+  <select id="symbolFilter" onchange="filterSymbols()">
+    <option value="">全部</option>
+    <option value="BTC">BTC</option><option value="ETH">ETH</option>
+  </select>
+</div>
+
+
+<div class="card symbol-card" data-sym="BTC">
+  <h3>BTC · <span class="bullish">0.38 (Somewhat-Bullish)</span></h3>
+  <div class="meta">关键驱动: 代币化叙事升温 → 机构/合规资金入场 → BTC 受益</div>
+  <table>
+    <thead><tr><th>#</th><th>时间</th><th>来源</th><th>标题</th><th>API</th><th>Claude</th><th>分歧</th></tr></thead>
+    <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>2026-05-05 23:43</td>
+      <td>CoinDesk</td>
+      <td><a href="https://www.coindesk.com/business/2026/05/05/michael-saylor-s-strategy-signals-potential-bitcoin-sale-to-fund-dividends-obligations" target="_blank">Michael Saylor's Strategy signals potential bitcoin sale...</a></td>
+      <td>-</td>
+      <td>-</td>
+      <td></td>
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>2026-05-05 21:13</td>
+      <td>Cointelegraph</td>
+      <td><a href="https://cointelegraph.com/markets/bitcoin-eyes-clear-path-to-90k-as-79b-shorts-unwind-since-february?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank">Bitcoin short liquidations push BTC to multi-month...</a></td>
+      <td>-</td>
+      <td>-</td>
+      <td></td>
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>2026-05-05 20:44</td>
+      <td>CoinDesk</td>
+      <td><a href="https://www.coindesk.com/markets/2026/05/05/self-directed-investors-power-bitcoin-etf-launch-despite-morgan-stanley-s-scale" target="_blank">Self-directed investors power bitcoin ETF launch despite...</a></td>
+      <td>-</td>
+      <td>-</td>
+      <td></td>
+    </tr>
+    
+    <tr>
+      <td>4</td>
+      <td>2026-05-05 20:06</td>
+      <td>CoinDesk</td>
+      <td><a href="https://www.coindesk.com/markets/2026/05/05/strategy-posts-usd12-54-billion-q1-loss-on-declining-bitcoin-price" target="_blank">Strategy posts $12.54 billion Q1 loss on declining bitcoin price</a></td>
+      <td>-</td>
+      <td>-</td>
+      <td></td>
+    </tr>
+    
+    <tr>
+      <td>5</td>
+      <td>2026-05-05 18:52</td>
+      <td>CoinDesk</td>
+      <td><a href="https://www.coindesk.com/markets/2026/05/05/bitcoin-extends-gains-to-usd81-500-as-tokenization-push-lifts-bullish-galaxy-centrifuge" target="_blank">Bitcoin extends gains to $81,500 as tokenization push...</a></td>
+      <td>-</td>
+      <td>0.50</td>
+      <td></td>
+    </tr>
+    
+    </tbody>
+  </table>
+</div>
+
+<div class="card symbol-card" data-sym="ETH">
+  <h3>ETH · <span class="bullish">0.18 (Neutral)</span></h3>
+  <div class="meta">关键驱动: ETH 技术面突破关键阻力 → 短线多头占优 → 风险偏好溢出至加密板块</div>
+  <table>
+    <thead><tr><th>#</th><th>时间</th><th>来源</th><th>标题</th><th>API</th><th>Claude</th><th>分歧</th></tr></thead>
+    <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>2026-05-05 17:38</td>
+      <td>Forexlive</td>
+      <td><a href="https://investinglive.com/Cryptocurrency/ethereum-technical-analysis-shows-bulls-crossing-up-this-important-resistance-20260505/" target="_blank">Ethereum technical analysis shows bulls crossing up this...</a></td>
+      <td>-</td>
+      <td>0.30</td>
+      <td>⚠️</td>
+    </tr>
+    
+    </tbody>
+  </table>
+</div>
+
+
+<h2>附录</h2>
+<div class="card">
+  <h4>数据源健康度</h4>
+  <table>
+    <thead><tr><th>源</th><th>状态</th><th>数量</th><th>备注</th></tr></thead>
+    <tbody>
+    
+    <tr><td>alpha_vantage</td><td>✅</td><td>0</td><td>-</td></tr>
+    
+    <tr><td>finnhub</td><td>✅</td><td>119</td><td>-</td></tr>
+    
+    <tr><td>newsapi</td><td>❌</td><td>0</td><td>Cannot connect to host newsapi.org:443 ssl:default [None]</td></tr>
+    
+    </tbody>
+  </table>
+</div>
+
+<div class="card">
+  <details>
+    <summary>全部 116 条原始新闻</summary>
+    <ul>
+    
+    <li><code>2026-05-05 23:39</code> [Reuters] <a href="https://news.google.com/rss/articles/CBMirwFBVV95cUxPRThBWWVHdGdiN3dET0g1cHdKeTM1QmZsVjBDY3BPMUVzY2lpWDZUSlVwYnNfck94d3BnMnNNNEh6SHdoV2o0WmJzY0ZybUZCSFBJd3g5T1ZsYmpHX1hMYThTWGZkVlBiODQ4YlRMNUxadzZOcjctb2tMaEZKbzlEbmExY0hGSmV2Nm9VekJ4ekxTSENfY3g3YWZQQ3VfeVFsVUpQelFLQkZhcmhCTEtn?oc=5" target="_blank">Trump says operation to reopen Strait of Hormuz will be 'paused' - Reuters</a></li>
+    
+    <li><code>2026-05-05 22:45</code> [Reuters] <a href="https://news.google.com/rss/articles/CBMitAFBVV95cUxPQjY4eVh4Y0MzcE5FOGdNRTZqS1pOTV9Za3ZsUjRiR3c3ZGg3dklxT1BTLTRzUlNPUFJEai1HQXIyM2hNNkhxU0tGdnZxVzd2Y3I3TXF6dlFoMVJYYTlubDlZaG1JQ0tFOFZPNXpTMmR0akItbVBrbGJFLS0ybzJNUTFmdFlHcGRmVXh6NEtfQUNUa2pFejFrZ0pyMlV6MXlzQ3Q0RHFwRmFqaS1udGdRRzNSRjQ?oc=5" target="_blank">US officials seek to maintain ceasefire with Iran, UAE says it was attacked - Reuters</a></li>
+    
+    <li><code>2026-05-05 22:29</code> [Reuters] <a href="https://news.google.com/rss/articles/CBMipgFBVV95cUxOcXJmbTJ1QXlUbzNTS1ZhOXF6RHZmZjJGekJSRzZHRWRYQ05FSmEzMnlCaHJpbG0zSVB5WGRTNzUyYWtzY0JtSVNkRWdpWVo0Z2VrM1JLSW02UzRLWXQwaEhoMWgzYnNLdkhRdktMbGJlRnFxY2s5SzNDYkF3Y3ExVWdHTjJuMy1qT200WVo1WmxlT2hnYXJPWmpPTTlXWXhPTnI3N0dn?oc=5" target="_blank">S&P 500 and Nasdaq notch records as AI chip stocks surge - Reuters</a></li>
+    
+    <li><code>2026-05-05 22:19</code> [Reuters] <a href="https://news.google.com/rss/articles/CBMiywFBVV95cUxNSDVQeC1WUkRic0xoSVdVTVdnbG9ISDQxWTFyZVdWSDlZUjhkQTJaNzJ0R0pEX2FITFdYcENCNXFpNnpmQUItTWpTUktSZU82V3ptRm9ma2l3RW1GWVAtaEI2Vm5WZGdPMXllZGM2VnRaN2drRjh2RlJ5Z0lNODdHSEtaR2ZfdG1OMXA0OGVaUUpYZGI0SWM0WGRmOTJPWk1na0JZV1dld0dqVEUxSXlHUXJRazV0bDVYXzdnNE1HLTkwc1djb0lrMjBxdw?oc=5" target="_blank">CS Anthem chemical tanker was second US-flagged vessel to exit Strait of Hormuz - Reuters</a></li>
+    
+    <li><code>2026-05-05 22:15</code> [Reuters] <a href="https://news.google.com/rss/articles/CBMipgFBVV95cUxQRXdCakJLZTZ2aXMzNmN6YjZXSmJJa3pfcjZyMDN0ZldIcDB6ell0S2YyWlZfZ0V2cHdlcTFkZ3ROdVE2NF9SRVNPa3pKcHNHR3RES3RJSktOUlA5RTY5Rm5WM2V0bWMxTGNTdnhIamIyM0loZW8zRlZSN3JLVkVSd1NiZnRyQzFOcjYxdmtjY1ZwazhyTGxlT0JRdTJMSzdNZW8xcDNR?oc=5" target="_blank">Rubio says US has achieved objectives of Iran operation - Reuters</a></li>
+    
+    <li><code>2026-05-05 21:25</code> [Reuters] <a href="https://news.google.com/rss/articles/CBMiugFBVV95cUxQb2UyTUswbHZscHZDZFpyNGxKSTFQNXZydXFsRDM0MzRUMUQ0RFcwaG9tNk95M0hwQVdzNTNEdlkxajgwRzg3YS1EaTFDVE9pQmFNUkhlUGtSeHZ3THZCYUpqeWlTbExDU1JGbE01UERBeFc3MHUwOTFiNkp2TTdJdl93N3UyR19kWnZ5c1NnQ183WHhzVF9wbHlITmdvYUJlbDRPMkxIM1pqRFd6ZGJlN3pnV0R0VzZJQWc?oc=5" target="_blank">Rubio expects to discuss religious freedom with Pope Leo after Trump blasts pontiff - Reuters</a></li>
+    
+    <li><code>2026-05-05 21:24</code> [CNBC] <a href="https://www.cnbc.com/2026/05/05/amc-arena-one-live-concerts.html" target="_blank">AMC to screen live concerts through Arena One partnership</a></li>
+    
+    <li><code>2026-05-05 19:04</code> [Reuters] <a href="https://news.google.com/rss/articles/CBMitgFBVV95cUxNeTMwVFFqRDBsTzlWTk9fZkljc3NJYl9hSkhrSkZxRVNfU1hMeWVGcXgzdThfZWhXaEJ5b1dkc3JfYldxZUJFNzFEaURzdXl3ZTZSakVRZFhYazJFLVIxMnBFb1ZzS3JrbjBVTm1XR3ZhVnNUeVdEejJsbDVMRko1a1BOQm5wYXpWY0dvWFNmVFFMXzhJWXRobm1Td0hISHhfcmwzWmFoUk1BbG5JMWNkekVYYzZZZw?oc=5" target="_blank">UAE air defences engage missiles, drones; Tehran denies attacking UAE - Reuters</a></li>
+    
+    <li><code>2026-05-05 18:55</code> [CNBC] <a href="https://www.cnbc.com/2026/05/05/intel-and-micron-are-poised-to-break-major-milestones.html" target="_blank">Intel and Micron are poised to break major milestones</a></li>
+    
+    <li><code>2026-05-05 18:39</code> [CNBC] <a href="https://www.cnbc.com/2026/05/05/masterclass-ceo-david-rogier-common-myths-success-failure-hard-work.html" target="_blank">MasterClass CEO: I've interviewed hundreds of successful people—they taught me to stop believing a common myth about hard work</a></li>
+    
+    <li><code>2026-05-05 18:34</code> [CNBC] <a href="https://www.cnbc.com/2026/05/05/johnson-johnson-reaches-a-milestone-for-one-of-its-most-exciting-pipeline-products.html" target="_blank">Johnson & Johnson reaches a milestone for one of its most exciting pipeline products</a></li>
+    
+    <li><code>2026-05-05 18:00</code> [CNBC] <a href="https://www.cnbc.com/2026/05/05/spirit-airlines-bankruptcy-costs.html" target="_blank">Spirit starts monthslong process of dismantling airline after biggest collapse in a generation</a></li>
+    
+    <li><code>2026-05-05 17:42</code> [Reuters] <a href="https://news.google.com/rss/articles/CBMiuAFBVV95cUxNN0NSNjJhWU4zcy1MX25YN3hVT1J0QjBEa3pNWU5POU93NUZKUllNaUtaeXpfZjZZa3FQNnh2N0t5QVc0RnM3SmhwUl9HM0NmT0lRTktOdFFxVHV3ZDl3YU5FT2tmNlBSdWJZRVV2R0dpSGwyM1JYMEE3SEVRS19oNU1xQnEzZmkyZUFMSFF5MzJjQjRuSEtJT2piR2thSGpZVThUN2NIZFZoc3p5SWp3eFE0SEkybFBL?oc=5" target="_blank">Iran sets up new mechanism to manage vessel transit through Hormuz - Reuters</a></li>
+    
+    <li><code>2026-05-05 17:22</code> [Reuters] <a href="https://news.google.com/rss/articles/CBMiyAFBVV95cUxPaTJNaDcyNFpURFppT0FIVXVsNFVtRkJWNkplT1NZWnpHeEx2T2h6TjVBUkdodC16MlJ1ODhZcTFlS29lcFN5eFVjLU1jb2R0T2lkUmRYbF9jRWl2alB2dkVRVmZ3TW82NFpyY01wRHFITDE5TnFDcnJQUDhtLV9ZdDZuS0lTeHM2cE1SWTlYZjBUYXFzTWhzYnFfS19aZm45ZVMzeTd0R3BMYjlEM3RnQkYzY2xPUXRyOEFDSGRCRjJkQ2dMcWRKbQ?oc=5" target="_blank">Marathon Petroleum profit beats estimates as Iran war boosts refining margins - Reuters</a></li>
+    
+    <li><code>2026-05-05 17:20</code> [Reuters] <a href="https://news.google.com/rss/articles/CBMizgFBVV95cUxQQ1RWYTVuZTRJS0VjZjRqdXR4aEJMc2pDTElIRFN4U1hXOFRsUFFKX1FyYWhIWkdhVFB3QjJMbnNjcmdDZzVISERFTjhXUEF5NlhkUklQdDUtTHF1dGNxbTd3Nkt0aVd6VVBORVV3TkhpZXdCZmdUYVNoY3FUMW5TV1FaZmNIRi14U1plMkxVTkc2aGNvS29hWVh2cWVVOXVUUUhnY2F4LUlOdnRYTW5UcllOLUx6T3JldGR2NW9HeUc0ZFlrWE5VbU85eFlkdw?oc=5" target="_blank">Ceasefire with Iran is not over, Pentagon's Hegseth says - Reuters</a></li>
+    
+    <li><code>2026-05-05 17:14</code> [Reuters] <a href="https://news.google.com/rss/articles/CBMipAFBVV95cUxObTRROEttUk9SVUV2b3pBY0NPMEhqU0RQZVE1OFNfTm1kNHFib2NVTmcxcUdlLXF4dzFZcFB0UVNacGdpcHRJR3hOS3Qya3dSemVobGMtLU84OVA1YU5xajB3UDZIY21SSFhhM1ZDUXUwNXAwNkhHODVHbzVFbmh2VzdtOEo5MU5hYlRJQkRKNTBNbGtlb2NnM3FGamkzd21SR1EyTg?oc=5" target="_blank">Trump says Iran "should wave the white flag of surrender" - Reuters</a></li>
+    
+    <li><code>2026-05-05 16:06</code> [CNBC] <a href="https://www.cnbc.com/2026/05/05/jim-cramer-says-shares-of-this-once-dormant-tech-giant-will-run-for-a-long-time-.html" target="_blank">Jim Cramer says shares of this once-dormant tech giant will 'run for a long time'</a></li>
+    
+    <li><code>2026-05-05 15:30</code> [Reuters] <a href="https://news.google.com/rss/articles/CBMixAFBVV95cUxNdUZMQnBsWW12VUN4eU1Sbk1uNExYdFNaa19uTlVkVlFfaEdDQ2ZJbi1qZkhndUluT3RDQVNXREg5d3FxT2hxVmowZHdnbWVxZGZVQTllS0Z4dVhqLWM4U3lGNENCQURyZnBseXdaVUJLUHVHVjFXLXFVSm1kREZ2QUUyMzJtNDUweUQ5NnNxbVFVMnctUlNOdFVoQkN2RndZUWlfbTBIY0U4LUw2LTlSdXIyVDFjYWJBV21KYTJkbTYyOXkt?oc=5" target="_blank">Jailed Iranian peace laureate at risk of dying after heart attack, husband says - Reuters</a></li>
+    
+    <li><code>2026-05-05 14:18</code> [CNBC] <a href="https://www.cnbc.com/2026/05/05/ai-use-work-employee-monitoring-tech-surveillance.html" target="_blank">'Almost every Fortune 500 is tracking overall AI usage': What that means for employees</a></li>
+    
+    <li><code>2026-05-05 14:13</code> [Reuters] <a href="https://news.google.com/rss/articles/CBMiwAFBVV95cUxNMVk2aURPRFFLZnFDSkQyNklXRnR6Vko2cG43cm1pNnI5QjkzelpIZ2JlbFhsbzlYUG4xVXlwbGR3dS0yTVk4dWx2dlNObHd1bDUxZVdhRTRRZjV3RzRocUtBVURSRlZTQ2NUUWlkVFFDWHBnN1g0aVhJUFdHVDNuSzN5VXZ1SGFmeFB1NHRLU09HclRqTWluc0FISGJteHoyTFBzUkM1Y2R6aktXck5nT2pyOU1mV2VNUzFIUTF2RHM?oc=5" target="_blank">Eight dead in fire at shopping centre west of Tehran, Iranian media say - Reuters</a></li>
+    
+    <li><code>2026-05-05 14:05</code> [CNBC] <a href="https://www.cnbc.com/2026/05/05/were-buying-the-post-earnings-dip-in-an-ai-industrial-stock-with-a-bright-future.html" target="_blank">We're buying the post-earnings dip in an AI industrial stock with a bright future</a></li>
+    
+    <li><code>2026-05-05 13:24</code> [Reuters] <a href="https://news.google.com/rss/articles/CBMiugFBVV95cUxQWmFyelFYZkNPMUNRc3JtcmVoYzkyV2x0SWZBb0xxclU0cE5hcmozci1MTFN5T1JNMmMxTTY5YXhoQUotRjcwUHF2bkQ3QmV3SHROYXdEaGZseGg0bmxUQjFfekswa3pGRDJjd29YMkJKd3JNdGFpU3VGWnBvcWlUNzVCNFE1MzBuaHlhLWxUSjc2bDhyNlZrV242OGlRblRPUGtwTkhjTlFSSTcwSmQ2dDNhQm5MNm1BeVE?oc=5" target="_blank">German exports to flatline this year amid Middle East uncertainty, says chambers of commerce - Reuters</a></li>
+    
+    <li><code>2026-05-05 13:12</code> [CNBC] <a href="https://www.cnbc.com/2026/05/05/iran-war-hegseth-trump-ceasefire-hormuz-strait.html" target="_blank">Hegseth says 'the ceasefire is not over' after U.S., Iran exchange fire</a></li>
+    
+    <li><code>2026-05-05 13:05</code> [CNBC] <a href="https://www.cnbc.com/2026/05/05/executives-are-burning-out-dont-know-how-to-cope-management-experts.html" target="_blank">Executives are burning out, just like their employees—and they don't know how to handle it, management experts say</a></li>
+    
+    <li><code>2026-05-05 13:01</code> [CNBC] <a href="https://www.cnbc.com/2026/05/05/jim-cramers-top-10-things-to-watch-in-the-stock-market-tuesday.html" target="_blank">Jim Cramer's top 10 things to watch in the stock market Tuesday</a></li>
+    
+    <li><code>2026-05-05 13:00</code> [CNBC] <a href="https://www.cnbc.com/2026/05/05/gen-z-millennials-prediction-markets.html" target="_blank">Most prediction market traders don't make a profit—Gen Z and millennials are turning to them anyway</a></li>
+    
+    <li><code>2026-05-05 13:00</code> [CNBC] <a href="https://www.cnbc.com/2026/05/05/psychotherapist-couples-who-practice-this-one-habit-tend-to-relieve-a-lot-of-stressheres-why.html" target="_blank">Psychotherapist: Couples who practice this one habit ‘tend to relieve a lot of stress’—here’s why</a></li>
+    
+    <li><code>2026-05-05 12:41</code> [Reuters] <a href="https://news.google.com/rss/articles/CBMiwAFBVV95cUxOcExoM1d6aklFTjE2XzI0aGc1ckRETkpybV9JVHZnZzVSY1NES1JpX2ZFbXdiRzZwdW1US1NmcC1hTHExTklKZllaTVl1dDdlbm9sNlAwZkFIcnhEVjdFYlRia1VDZ2tSS1NDNnM3V2h3VkdURXBuM3F0MnBfSU9oX1lUUHpJSkd4NE56ZHNzRnNzM1EyemU2XzlCNkVJWXFfeVZrc2hfLWQySFJfZjVEVWdPVmU2OEM0Nmlra01QdnE?oc=5" target="_blank">Rubio calls Hormuz resolution test for UN, urges against vetoes - Reuters</a></li>
+    
+    <li><code>2026-05-05 11:39</code> [Reuters] <a href="https://news.google.com/rss/articles/CBMisAFBVV95cUxPSVF6cS1nSDVPVVZXeUs5Njhfb0dTYlBvcjJCczVsSmh1dXN3WmdVblNaZ2R2TzVlbmkyTFV4MktIaDJnSVZENS1HNzhBdWlrX203T0pmRVVsVW1lUTZ3ME9sV0MxX21EMm9XSEdIU25IUjBmWmpDVVBMUzN1bDY3VzB0Y1VFNFlIMEJZdV9COWF5bm1HZ2U0LUpOZkZlSTNSbjRJNWRmQUhNejlSWXBkNg?oc=5" target="_blank">UAE restricts airspace after Iranian missile, drone attack - Reuters</a></li>
+    
+    <li><code>2026-05-05 10:55</code> [CNBC] <a href="https://www.cnbc.com/2026/05/05/pfizer-pfe-earnings-q1-2026.html" target="_blank">Pfizer tops Wall Street estimates, reaffirms outlook as newer products show growth</a></li>
+    
+    <li><code>2026-05-05 09:41</code> [Reuters] <a href="https://news.google.com/rss/articles/CBMiqAFBVV95cUxQaHk1Szc4MmdpbTk3MnZMWnY4Qml1cVlpbkFBTHBBUE1NY1RTTjNKR2M3N3ltaVRTLUlhbUpnVFUyLUFRWXFBSnZoRjA3QnRiMU16OGdCeTFfTzZVS0VGUjRqMTd3RjFRMU9LWmRvUHFYdml5SkNQcUt5SWFWWHk1eGthNEs1RHJ5VURkR2Q4RktGU0o4TWQzaXRsaGU5N1RERTV4VThqaVY?oc=5" target="_blank">Diet Coke parties: Iran war cans crisis fuels thirst for cola events in India - Reuters</a></li>
+    
+    <li><code>2026-05-05 06:35</code> [Reuters] <a href="https://news.google.com/rss/articles/CBMiqwFBVV95cUxPRFFDRGNTUUN0MndKSHNLbklST1QwZlNkU2VtVU5xSXlLM2FzV2pvOG5KcWJqWG5iT093Y2g5bEQ0RGJQVEVVZ2JPV1pmOEFfQ0twQkJUZlVMb0d1RkVvSlpMUzdlUjlYTEFKNl9vdEt6ME4wVXlhd0hMNmQzZ19NOUp4dUZvMHNScHZGblFfcmw3VW1GZVdjWnhHaFNHbUZKaFNhdThjYjUzdXM?oc=5" target="_blank">Gulf shares slip after fresh attacks rattle truce - Reuters</a></li>
+    
+    <li><code>2026-05-05 06:06</code> [Reuters] <a href="https://news.google.com/rss/articles/CBMizwFBVV95cUxPM3YzTUJDdHFsZWc3VG53NUhlUThxaDNfeDIzOTFxMHhBSkNNd2JxMTdzYkQ2NGV4SzlIekZJdG1NYUR0N0lHUjIwcFQyUHdncW9IN2E1Mk95VG5EX2d5aVhtUnZ6dUtwY29BVEcyZEFjTThuWG5XSDFXbVNLUlc2ei1FcGpvYmtjNUpBWGJGVWE4NDU0bXRRTDdnWFdUTmhVWF8xOUFPaDBza3gxOWxwZXg1SGlwdEZIZDhST1haSGRhbHR3Uzk4N1dOQThRaUE?oc=5" target="_blank">Booming US energy exports draw scrutiny as domestic fuel prices bite - Reuters</a></li>
+    
+    <li><code>2026-05-05 05:40</code> [Reuters] <a href="https://news.google.com/rss/articles/CBMiqwFBVV95cUxQaktwSUpROHZoOWh4ZUktNGZWbUJkT2lWUHp3Rm1HMjlVLVVRbE9EV3hZemstTmVCZU1SN0pJaDNEZUpmSmpydVcxNmZzNDd5WFgtMV9hWUcxd0hDS3BPa084VlNLX0QzaW1vRFZodmJ3d1VQdXNwU0p0V1Q5ZVJLQ2JBVVA2eExLa3hZNzBnQXA2cXR0OTlWdFZ3WU1SOHNqTmt6eTl3MVJMU0E?oc=5" target="_blank">Hugo Boss tops profit forecasts even as Iran war hits markets - Reuters</a></li>
+    
+    <li><code>2026-05-05 05:03</code> [Reuters] <a href="https://news.google.com/rss/articles/CBMizAFBVV95cUxOSkZCMS1PdnJxNlItSnlaM24wUm9pTjhDMnFmQVF2RlRVTmo4OG5FZGYySnZKSDBualVOY00td3ZTNUg5eDBObTBLUmZTTmc3ak5hbVdfcmpWVnRnTEd4dUppbnNkY2VGeHlzRUxROGpYV3E0NG9uYXY1YWdJNlJndHlBOWxVSUEwXzZvTkZLRHE1LWZCWlJnUFVsRk5JV1dDLXRGUFBLU2w2cGMzTWlyMDJCVTZlZHZVMkE5a0l6X1Fyb2hlSXJNYnR6ZEU?oc=5" target="_blank">Australia's central bank set to cool its heels after rapid-fire rate hikes - Reuters</a></li>
+    
+    <li><code>2026-05-05 04:32</code> [Reuters] <a href="https://news.google.com/rss/articles/CBMif0FVX3lxTE1jVXVtQmdxNjRLRkdxOHpQTkE0M1hPS011SXZjeFpQc01XOXhYbXE1Tjd3Ukd0TkwzUDJPNkFKbW1SMDByUHloUThkQjgxblZDSHVRaTVuUnNOZGplM3l2X1Btc3pRMUppTjZVcW05bnhBTlNrajhZN21PbDZtV1k?oc=5" target="_blank">Morning Bid: Freedom? What freedom? - Reuters</a></li>
+    
+    <li><code>2026-05-05 04:19</code> [Reuters] <a href="https://news.google.com/rss/articles/CBMiuwFBVV95cUxNRjJTYWxsUEhqdUgtVHg0MnlXN096RmFqVVR6d2F5ZXpockNnYlNnRnFJLVVmVXc1VnhVYVV4M2lYVzFUS2ZjaW5oMWdiYTJyQVVlRWQzSWNPNnVpcUp2Y3dkSFZXdVJOcFlEN1RCd0hMRkhSblJlY28ya3FfdzlhNk1pRW82NmQwZ0pfdWZCSGc0VmxlVlZndFhOWktKVkdZWVdGVjJxakxSMXdCU0lQbldoU3lUaXVjeHJF?oc=5" target="_blank">UAE non-oil private sector growth slows as Iran war weighs, PMI shows - Reuters</a></li>
+    
+    <li><code>2026-05-05 04:07</code> [Reuters] <a href="https://news.google.com/rss/articles/CBMiywFBVV95cUxPbkRMTWw2dllUdE9aSW11QzdMRlVGcVgtbkVLeF94RWpzbXB6QTA3RjRiTGlrRGNOcFdiUERYV0lFd1FEb2FJUGJLZFVabnptQnhzbTRkblZmWm1HdEJuWl9JXy1BcktmemFnTGJxaEdTak5ySHgzZF9pMlM1TnZCZEw2aHpEZ1NpQ1U5RFJTSDBUSmxkVHRPM0twZzQ0VzFHbWptQmtpSDJUallKVjhjM3h4dzZqS2JSQXVqLWtoXzNjYXp2Zkk1Y01BTQ?oc=5" target="_blank">Iran war gives small boost to thermal coal, further gains possible - Reuters</a></li>
+    
+    <li><code>2026-05-05 03:47</code> [Reuters] <a href="https://news.google.com/rss/articles/CBMiwgFBVV95cUxNSWNFbjJxYWppRk8zN2pzWlM4c0FsTGV6V2VXR1A1RksyYmlTMktEMXgxZ3lGZ1hRMU1nYmZJQ3UyRkJfWi0yZGZZUk4tUUpDRTRDeUp1Q0hyQ2xLVDIxVVh4SGJsY2hDNkpZeTZjb1RSOWpDNHd1VGZKeTNBVS05U2xsdmxqWVpWNVcxZ1lZX2RFZlVhbGZjbFZfQmNkVnFnSGNSMFlpNmtOTUswVXdueC1hT3ZiZE5sZHdMamZHaVJIZw?oc=5" target="_blank">Seoul reviews Trump's Hormuz navigation plan after explosion on Korean-operated ship - Reuters</a></li>
+    
+    <li><code>2026-05-05 03:42</code> [Reuters] <a href="https://news.google.com/rss/articles/CBMivgFBVV95cUxOZl91cm9Xd3FTOXB0VnE2SHVGOFRxU2NwT2RhSXhqOGhPajdVc0ptVXBnRzFHQTU5RWplem96SS1qaVRZdWxQMXVuZFgtSENES0ZwZFllSk9sYmhWZGZIdkVVbVNrYko2Tmw4bVAwTmRmZ0dVSjhIWHo2Slp5dFk0VXBTQ1FyTkJMQUxLMHNQVUJpbWQ5SGhVUEM2RklXbDZJZlFHcEtwUHo3MENwT3AwVHVveVpqejFTWGZIYkdR?oc=5" target="_blank">Rupee hits record low as economic worries mount on renewed US-Iran tensions - Reuters</a></li>
+    
+    <li><code>2026-05-05 23:43</code> [CoinDesk] <a href="https://www.coindesk.com/business/2026/05/05/michael-saylor-s-strategy-signals-potential-bitcoin-sale-to-fund-dividends-obligations" target="_blank">Michael Saylor's Strategy signals potential bitcoin sale to fund dividends obligations</a></li>
+    
+    <li><code>2026-05-05 22:39</code> [CoinDesk] <a href="https://www.coindesk.com/policy/2026/05/05/trust-in-crypto-remains-biggest-barrier-to-adoption-say-consensus-miami-2026-panelists" target="_blank">Trust in crypto remains biggest barrier to adoption, say Consensus Miami 2026 panelists</a></li>
+    
+    <li><code>2026-05-05 22:20</code> [Cointelegraph] <a href="https://cointelegraph.com/news/forward-industries-rockawayx-onre-solana-reinsurance?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank">Forward Industries, RockawayX back OnRe to build onchain reinsurance on Solana</a></li>
+    
+    <li><code>2026-05-05 22:08</code> [Cointelegraph] <a href="https://cointelegraph.com/news/ripple-ceo-market-structure-progress-stablecoin-compromise?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank">Ripple CEO says market structure bill not a ‘done deal,’ despite stablecoin compromise</a></li>
+    
+    <li><code>2026-05-05 22:06</code> [CoinDesk] <a href="https://www.coindesk.com/business/2026/05/05/the-world-s-entire-economy-will-be-tokenized-says-consensys-joseph-lubin" target="_blank">The world's entire economy will be tokenized, says Consensys’ Joseph Lubin</a></li>
+    
+    <li><code>2026-05-05 22:04</code> [CoinDesk] <a href="https://www.coindesk.com/business/2026/05/05/it-s-transparency-not-tech-alone-that-drives-crypto-adoption-panelists-tell-consensus-miami" target="_blank">It's transparency, not tech alone, that drives crypto adoption, panelists tell Consensus Miami</a></li>
+    
+    <li><code>2026-05-05 21:57</code> [CoinDesk] <a href="https://www.coindesk.com/business/2026/05/05/different-voices-in-product-policy-and-hiring-change-crypto-outcomes-panelists-tell-consensus-miami" target="_blank">Different voices in product, policy and hiring change crypto outcomes, panelists tell Consensus Miami</a></li>
+    
+    <li><code>2026-05-05 21:47</code> [CoinDesk] <a href="https://www.coindesk.com/tech/2026/05/05/ai-agents-are-breaking-web-economics-but-cloudflare-says-x402-can-help" target="_blank">AI agents are breaking web economics, but Cloudflare says x402 can help</a></li>
+    
+    <li><code>2026-05-05 21:30</code> [Cointelegraph] <a href="https://cointelegraph.com/press-releases/prophet-launches-ai-powered-prediction-market-with-live-10000-trading-tranche?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank">Prophet launches AI-powered prediction market with live $10,000 trading tranche</a></li>
+    
+    <li><code>2026-05-05 21:29</code> [CoinDesk] <a href="https://www.coindesk.com/business/2026/05/05/kraken-eyes-ipo-as-it-partners-with-moneygram-to-bridge-crypto-to-cash-gap" target="_blank">Kraken eyes IPO as it partners with MoneyGram to bridge crypto-to-cash gap</a></li>
+    
+    <li><code>2026-05-05 21:27</code> [CoinDesk] <a href="https://www.coindesk.com/business/2026/05/05/state-street-says-institutions-want-improved-blockchain-security-in-wake-of-recent-defi-attacks" target="_blank">State Street says institutions want improved blockchain security in wake of recent DeFi attacks</a></li>
+    
+    <li><code>2026-05-05 21:25</code> [CoinDesk] <a href="https://www.coindesk.com/business/2026/05/05/crypto-s-barbell-speculation-and-stablecoin-payments-drive-adoption-tempo-s-romero-says" target="_blank">Crypto's 'barbell': speculation and stablecoin payments drive adoption, Tempo's Romero says</a></li>
+    
+    <li><code>2026-05-05 21:23</code> [CoinDesk] <a href="https://www.coindesk.com/business/2026/05/05/citi-exec-says-fragmented-crypto-systems-risk-repeating-old-banking-problems" target="_blank">Citi exec says fragmented crypto systems risk repeating old banking problems</a></li>
+    
+    <li><code>2026-05-05 21:19</code> [CoinDesk] <a href="https://www.coindesk.com/business/2026/05/05/robinhood-vp-johann-kerbrat-recommends-global-portfolios-as-demand-for-u-s-stocks-rises" target="_blank">Overseas demand for U.S. equities is growing, says Robinhood's Johan Kerbrart</a></li>
+    
+    <li><code>2026-05-05 21:17</code> [CoinDesk] <a href="https://www.coindesk.com/business/2026/05/05/crypto-etfs-go-mainstream-as-traditional-finance-locks-in" target="_blank">Crypto ETFs go mainstream as traditional finance locks in</a></li>
+    
+    <li><code>2026-05-05 21:13</code> [Cointelegraph] <a href="https://cointelegraph.com/markets/bitcoin-eyes-clear-path-to-90k-as-79b-shorts-unwind-since-february?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank">Bitcoin short liquidations push BTC to multi-month highs: Is $90K next?</a></li>
+    
+    <li><code>2026-05-05 20:44</code> [CoinDesk] <a href="https://www.coindesk.com/markets/2026/05/05/self-directed-investors-power-bitcoin-etf-launch-despite-morgan-stanley-s-scale" target="_blank">Self-directed investors power bitcoin ETF launch despite Morgan Stanley’s scale</a></li>
+    
+    <li><code>2026-05-05 20:42</code> [Cointelegraph] <a href="https://cointelegraph.com/news/crypto-pac-spending-indiana-candidate-primary?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank">Crypto PAC spends $500K in support of Indiana candidate ahead of primary</a></li>
+    
+    <li><code>2026-05-05 20:21</code> [CoinDesk] <a href="https://www.coindesk.com/web3/2026/05/05/kelp-claims-that-layerzero-approved-the-setup-it-blamed-for-usd292-million-bridge-hack" target="_blank">Kelp claims that LayerZero approved the setup it blamed for $292 million bridge hack</a></li>
+    
+    <li><code>2026-05-05 20:06</code> [CoinDesk] <a href="https://www.coindesk.com/markets/2026/05/05/strategy-posts-usd12-54-billion-q1-loss-on-declining-bitcoin-price" target="_blank">Strategy posts $12.54 billion Q1 loss on declining bitcoin price</a></li>
+    
+    <li><code>2026-05-05 19:11</code> [Cointelegraph] <a href="https://cointelegraph.com/news/tennessee-bankers-association-stablecore-digital-asset-provider?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank">Tennessee Bankers Association names Stablecore as preferred digital asset provider</a></li>
+    
+    <li><code>2026-05-05 18:57</code> [CoinDesk] <a href="https://www.coindesk.com/business/2026/05/05/drift-outlines-a-recovery-plan-for-users-after-usd295-million-dprk-linked-exploit" target="_blank">Drift outlines a recovery plan for users after $295 million DPRK-linked exploit</a></li>
+    
+    <li><code>2026-05-05 18:55</code> [CoinDesk] <a href="https://www.coindesk.com/business/2026/05/05/tokenization-won-t-disrupt-banking-rails-but-improve-them-wall-street-executives-say" target="_blank">Tokenization won't disrupt banking rails but improve them, Wall Street executives say</a></li>
+    
+    <li><code>2026-05-05 18:52</code> [CoinDesk] <a href="https://www.coindesk.com/markets/2026/05/05/bitcoin-extends-gains-to-usd81-500-as-tokenization-push-lifts-bullish-galaxy-centrifuge" target="_blank">Bitcoin extends gains to $81,500 as tokenization push lifts Bullish, Galaxy, Centrifuge</a></li>
+    
+    <li><code>2026-05-05 18:35</code> [Cointelegraph] <a href="https://cointelegraph.com/markets/crypto-fear-and-greed-flips-to-neutral-for-the-first-time-since-january?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank">Crypto Fear and Greed Index turns neutral for first time since January: Is $100K BTC next?</a></li>
+    
+    <li><code>2026-05-05 18:01</code> [Cointelegraph] <a href="https://cointelegraph.com/news/us-prosecutors-recommendation-celsius-exec-sentencing?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank">US prosecutors ask for leniency for ex-Celsius exec, citing cooperation</a></li>
+    
+    <li><code>2026-05-05 17:38</code> [Forexlive] <a href="https://investinglive.com/Cryptocurrency/ethereum-technical-analysis-shows-bulls-crossing-up-this-important-resistance-20260505/" target="_blank">Ethereum technical analysis shows bulls crossing up this important resistance</a></li>
+    
+    <li><code>2026-05-05 17:27</code> [CoinDesk] <a href="https://www.coindesk.com/policy/2026/05/05/rep-steven-horsford-pitches-parity-act-as-durable-floor-for-crypto-tax-at-consensus-miami" target="_blank">Rep. Steven Horsford pitches PARITY Act as 'durable floor' for crypto tax at Consensus Miami</a></li>
+    
+    <li><code>2026-05-05 17:24</code> [CoinDesk] <a href="https://www.coindesk.com/tech/2026/05/05/solana-s-alpenglow-upgrade-could-arrive-next-quarter-co-founder-yakovenko-says" target="_blank">Solana’s 'Alpenglow' upgrade could arrive next quarter, co-founder Yakovenko says</a></li>
+    
+    <li><code>2026-05-05 17:22</code> [CoinDesk] <a href="https://www.coindesk.com/business/2026/05/05/western-union-s-solana-based-stablecoin-could-reshape-its-payment-model-analyst-says" target="_blank">Western Union’s Solana-based stablecoin could reshape its payment model, analyst says</a></li>
+    
+    <li><code>2026-05-05 17:10</code> [CoinDesk] <a href="https://www.coindesk.com/business/2026/05/05/figure-targets-fannie-mae-and-freddie-mac-in-mortgage-push-citing-massive-cost-cuts-for-borrowers" target="_blank">Figure targets Fannie Mae and Freddie Mac in mortgage push, citing massive cost cuts for borrowers</a></li>
+    
+    <li><code>2026-05-05 17:06</code> [Cointelegraph] <a href="https://cointelegraph.com/news/figure-stock-bernstein-tokenized-credit-expansion?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank">Bernstein cites $4T tokenized credit opportunity for Figure Technology stock</a></li>
+    
+    <li><code>2026-05-05 17:02</code> [Cointelegraph] <a href="https://cointelegraph.com/markets/xrp-replays-2025-fractal-that-sparked-a-66-price-rally?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank">XRP price copies 2025 chart fractal that last time sparked 66% gains</a></li>
+    
+    <li><code>2026-05-05 16:28</code> [CoinDesk] <a href="https://www.coindesk.com/policy/2026/05/05/ripple-ceo-brad-garlinghouse-says-clarity-better-than-chaos-as-senate-hits-key-moment" target="_blank">Ripple CEO Brad Garlinghouse says Clarity better than chaos as Senate hits key moment</a></li>
+    
+    <li><code>2026-05-05 15:19</code> [CoinDesk] <a href="https://www.coindesk.com/markets/2026/05/05/wall-street-warns-human-built-markets-can-t-keep-up-with-machine-speed-trading" target="_blank">Wall Street warns human-built markets can’t keep up with machine-speed trading</a></li>
+    
+    <li><code>2026-05-05 15:12</code> [CoinDesk] <a href="https://www.coindesk.com/business/2026/05/05/crypto-doesn-t-need-regulation-its-value-is-being-outside-regulatory-apparatus-says-arthur-hayes" target="_blank">Crypto's value is from being outside regulatory apparatus, says Arthur Hayes</a></li>
+    
+    <li><code>2026-05-05 15:00</code> [CoinDesk] <a href="https://www.coindesk.com/policy/2026/05/05/american-innovation-project-expands-team-with-tech-crypto-savvy-graduates" target="_blank">From bitcoin mining to the Hill: AIP’s new fellow brings hands-on crypto experience to D.C.</a></li>
+    
+    <li><code>2026-05-05 15:00</code> [CoinDesk] <a href="https://www.coindesk.com/tech/2026/05/05/jito-labs-launches-jtx-as-self-custody-trading-heats-up-on-solana" target="_blank">Jito Labs launches self-custody trading tool as activity heats up on Solana</a></li>
+    
+    <li><code>2026-05-05 14:40</code> [CoinDesk] <a href="https://www.coindesk.com/business/2026/05/05/coinbase-taps-centrifuge-as-preferred-tokenization-backbone-takes-equity-stake" target="_blank">Coinbase taps Centrifuge as preferred tokenization backbone, takes equity stake</a></li>
+    
+    <li><code>2026-05-05 14:31</code> [Cointelegraph] <a href="https://cointelegraph.com/news/crypto-perps-volume-points-to-traders-front-running-robinhood-listings-kaiko?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank">Kaiko flags possible front-running before Robinhood token listings</a></li>
+    
+    <li><code>2026-05-05 14:00</code> [Cointelegraph] <a href="https://cointelegraph.com/news/space-and-time-rolls-out-virtual-vaults-for-institutional-onchain-lending?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank">Space and Time rolls out virtual vaults for institutional onchain lending</a></li>
+    
+    <li><code>2026-05-05 13:58</code> [Cointelegraph] <a href="https://cointelegraph.com/news/binance-changes-off-hours-pricing-method-commodity-perpetual-futures?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank">Binance changes weekend pricing for commodity TradFi futures</a></li>
+    
+    <li><code>2026-05-05 13:48</code> [CoinDesk] <a href="https://www.coindesk.com/business/2026/05/05/crypto-com-s-high-rolling-head-of-marketing-taps-out-after-almost-six-years" target="_blank">Crypto.com’s high-rolling head of marketing to leave after almost six years</a></li>
+    
+    <li><code>2026-05-05 13:36</code> [Cointelegraph] <a href="https://cointelegraph.com/news/coinbase-cuts-14-of-workforce-citing-market-slump-and-ai-shift?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank">Coinbase cuts 14% of workforce, citing market slump and AI shift</a></li>
+    
+    <li><code>2026-05-05 13:34</code> [Cointelegraph] <a href="https://cointelegraph.com/markets/bitcoin-price-retakes-81k-is-btc-in-bear-market-rally-or-supercycle?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank">Bitcoin ‘supercycle’ or bear-market rally? BTC breaking $81K has traders at odds</a></li>
+    
+    <li><code>2026-05-05 13:30</code> [CoinDesk] <a href="https://www.coindesk.com/business/2026/05/05/consensus-miami-day-1-sights-and-sounds" target="_blank">Consensus Miami Day 1: Sights and sounds</a></li>
+    
+    <li><code>2026-05-05 13:25</code> [Cointelegraph] <a href="https://cointelegraph.com/news/crypto-products-post-5th-straight-week-of-inflows-despite-mid-week-selloff?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank">Crypto products post 5th straight week of inflows despite mid-week selloff</a></li>
+    
+    <li><code>2026-05-05 13:12</code> [CoinDesk] <a href="https://www.coindesk.com/coindesk-indices/2026/05/05/coindesk-20-performance-update-index-jumps-1-3-as-all-constituents-trade-higher" target="_blank">CoinDesk 20 performance update: index jumps 1.3% as all constituents trade higher</a></li>
+    
+    <li><code>2026-05-05 13:07</code> [CoinDesk] <a href="https://www.coindesk.com/markets/2026/05/05/state-street-and-galaxy-launch-tokenized-fund-to-bring-cash-management-onchain" target="_blank">State Street and Galaxy launch tokenized fund to bring cash management onchain</a></li>
+    
+    <li><code>2026-05-05 13:00</code> [CoinDesk] <a href="https://www.coindesk.com/markets/2026/05/05/nasdaq-firm-scraps-massive-bitcoin-treasury-plan-to-redirect-usd485-million-to-ai" target="_blank">K Wave Media scraps massive bitcoin treasury plan to redirect $485 million to AI</a></li>
+    
+    <li><code>2026-05-05 12:56</code> [CoinDesk] <a href="https://www.coindesk.com/markets/2026/05/05/bitcoin-absorbed-usd200-million-profit-taking-at-usd80-000-in-a-bullish-sign-for-btc" target="_blank">Bitcoin absorbed $200 million profit-taking at $80,000 in a bullish sign for BTC</a></li>
+    
+    <li><code>2026-05-05 12:54</code> [Cointelegraph] <a href="https://cointelegraph.com/news/bullish-to-acquire-equiniti-for-42b-in-tokenization-push-report?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank">Bullish to buy transfer agent Equiniti for $4.2B in tokenization push</a></li>
+    
+    <li><code>2026-05-05 12:46</code> [Cointelegraph] <a href="https://cointelegraph.com/news/kalshi-hyperliquid-offer-prediction-markets-to-dutch-users-despite-polymarket-ban?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank">Dutch users still access prediction markets despite Polymarket ban</a></li>
+    
+    <li><code>2026-05-05 12:00</code> [CoinDesk] <a href="https://www.coindesk.com/business/2026/05/05/standard-chartered-expands-further-into-crypto-with-stake-in-gsr-at-usd1-billion-valuation" target="_blank">Standard Chartered expands further into crypto with stake in GSR at $1 billion valuation</a></li>
+    
+    <li><code>2026-05-05 12:00</code> [CoinDesk] <a href="https://www.coindesk.com/business/2026/05/05/andreessen-horowitz-raises-usd2-2-billion-in-a-new-fund-saying-crypto-fundamentals-are-at-an-all-time-high" target="_blank">Andreessen Horowitz raises $2.2 billion in a new fund, saying crypto fundamentals are at an 'all-time high'</a></li>
+    
+    <li><code>2026-05-05 11:39</code> [CoinDesk] <a href="https://www.coindesk.com/tech/2026/05/05/ton-jumps-36-as-messaging-giant-telegram-to-take-control-of-network-push" target="_blank">Toncoin surges 36% as Telegram replaces TON Foundation and slashes fees</a></li>
+    
+    <li><code>2026-05-05 11:38</code> [CoinDesk] <a href="https://www.coindesk.com/business/2026/05/05/coinbase-cuts-14-of-staff-as-ai-reshapes-how-crypto-companies-operate" target="_blank">Coinbase cuts 14% of staff as AI reshapes how crypto companies operate</a></li>
+    
+    <li><code>2026-05-05 11:16</code> [CoinDesk] <a href="https://www.coindesk.com/daybook-us/2026/05/05/one-bank-after-another-scraps-fed-rate-cut-forecasts-bitcoin-doesn-t-care" target="_blank">One bank after another scraps Fed rate-cut forecasts. Bitcoin doesn't care.</a></li>
+    
+    <li><code>2026-05-05 11:16</code> [Cointelegraph] <a href="https://cointelegraph.com/markets/bitcoin-taps-81k-as-long-term-holders-add-330k-btc-how-high-can-price-go?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank">Bitcoin taps $81K as long-term holders add 330K BTC: How high can price go?</a></li>
+    
+    <li><code>2026-05-05 10:36</code> [Cointelegraph] <a href="https://cointelegraph.com/news/uae-innovation-city-introduces-ai-onchain-business-ids?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank">UAE free zone launches blockchain-based business IDs for registered firms</a></li>
+    
+    <li><code>2026-05-05 10:29</code> [Cointelegraph] <a href="https://cointelegraph.com/news/telegram-to-become-tons-largest-validator-durov-says?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank">Telegram to become TON’s largest validator, Durov says</a></li>
+    
+    <li><code>2026-05-05 10:25</code> [CoinDesk] <a href="https://www.coindesk.com/business/2026/05/05/crypto-platform-bullish-to-buy-equiniti-for-usd4-25-billion-building-tokenized-securities-infrastructure" target="_blank">Crypto platform Bullish to buy Equiniti for $4.2 billion, building tokenized securities infrastructure</a></li>
+    
+    <li><code>2026-05-05 10:05</code> [CoinDesk] <a href="https://www.coindesk.com/markets/2026/05/05/bitcoin-tops-usd80-000-as-altcoins-rally-and-risk-appetite-returns" target="_blank">Bitcoin tops $80,000 as altcoins rally and risk appetite returns</a></li>
+    
+    <li><code>2026-05-05 09:56</code> [Cointelegraph] <a href="https://cointelegraph.com/news/spot-bitcoin-etfs-pull-in-520m-as-btc-reclaims-80000-amid-post-ceasefire-recovery?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank">Bitcoin ETFs pull in $532M as BTC reclaims $80K amid ‘post-ceasefire recovery’</a></li>
+    
+    <li><code>2026-05-05 08:18</code> [CoinDesk] <a href="https://www.coindesk.com/policy/2026/05/05/defi-lender-aave-asks-court-to-block-usd71-million-crypto-seizure-tied-to-north-korea-claims" target="_blank">DeFi lender Aave asks court to block $71 million crypto seizure tied to North Korea claims</a></li>
+    
+    <li><code>2026-05-05 07:07</code> [Cointelegraph] <a href="https://cointelegraph.com/news/bankers-still-says-new-proposal-in-clarity-act-falls-short-of-protecting-bank-deposits?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank">Stablecoin proposal still ‘falls short’ of protecting bank deposits: US banks</a></li>
+    
+    <li><code>2026-05-05 07:00</code> [Cointelegraph] <a href="https://cointelegraph.com/news/moonpay-acquires-dflow-to-expand-into-solana-trading-infrastructure?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank">MoonPay buys DFlow to expand into Solana trading infrastructure</a></li>
+    
+    <li><code>2026-05-05 07:00</code> [Cointelegraph] <a href="https://cointelegraph.com/news/kraken-taps-moneygram-network-to-enable-global-crypto-to-cash-withdrawals?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank">Kraken partners with MoneyGram for global crypto cash-outs</a></li>
+    
+    <li><code>2026-05-05 06:45</code> [CoinDesk] <a href="https://www.coindesk.com/markets/2026/05/05/bitcoin-used-to-hate-inflation-now-it-might-be-the-opposite" target="_blank">Bitcoin used to hate inflation. Now it might be the opposite</a></li>
+    
+    <li><code>2026-05-05 06:12</code> [CoinDesk] <a href="https://www.coindesk.com/tech/2026/05/05/ripple-to-share-north-korean-threat-intelligence-with-crypto-firms" target="_blank">Ripple to share North Korean threat intelligence with crypto firms</a></li>
+    
+    <li><code>2026-05-05 06:12</code> [Cointelegraph] <a href="https://cointelegraph.com/news/haun-ventures-raises-1b-crypto-ai-funds?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank">Haun Ventures raises $1B, adding AI to crypto focus</a></li>
+    
+    <li><code>2026-05-05 06:08</code> [Cointelegraph] <a href="https://cointelegraph.com/news/polygon-rolls-out-private-payments-for-institutions?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank">Polygon rolls out private stablecoin payments targeting institutions</a></li>
+    
+    <li><code>2026-05-05 05:50</code> [CoinDesk] <a href="https://www.coindesk.com/markets/2026/05/05/bitcoin-crosses-usd81-000-eth-sol-doge-steady-as-options-desks-bid-on-further-price-jump" target="_blank">Bitcoin crosses $81,000, ETH, SOL, DOGE steady as options desks bid on further price jump</a></li>
+    
+    <li><code>2026-05-05 05:16</code> [CoinDesk] <a href="https://www.coindesk.com/markets/2026/05/05/xrp-slips-below-usd1-40-on-heavy-volume-tightening-range-puts-breakout-in-focus" target="_blank">XRP slips below $1.40 on heavy volume, tightening range puts breakout in focus</a></li>
+    
+    <li><code>2026-05-05 03:51</code> [Cointelegraph] <a href="https://cointelegraph.com/news/aave-asks-court-to-lift-restraining-notice-on-frozen-kelp-exploit-ether?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank">Aave files emergency motion to lift restraining notice on frozen ETH</a></li>
+    
+    <li><code>2026-05-06 01:46</code> [Forexlive] <a href="https://investinglive.com/news/china-private-survey-rating-dog-services-pmi-526-in-april-up-from-521-in-march-20260506/" target="_blank">China private survey Rating Dog Services PMI 52.6 in April (up from 52.1 in March)</a></li>
+    
+    </ul>
+  </details>
+</div>
+
+<h2>合规与免责</h2>
+<div class="disclaimer">
+  <h3>免责声明</h3>
+  <ol>
+    <li>本报告由开源工具 Forex Sentiment Monitor 基于公开新闻与算法模型自动生成，<strong>不构成</strong>任何证券、外汇、贵金属、期货、数字货币或其他金融工具的买卖建议、投资意见或收益保证。</li>
+    <li>金融市场存在风险，交易须谨慎。过往市场表现不预示未来结果。使用者应独立判断，并自行承担相应的交易风险与后果。本工具的作者与贡献者对基于本报告作出的任何决策不负任何责任。</li>
+    <li>本报告引用的新闻与数据版权归各原始发布方所有。请在所用数据源的服务条款允许范围内使用本工具。</li>
+  </ol>
+</div>
+
+<div class="card">
+  <h4>数据来源 Attribution</h4>
+  <ul>
+    <li>Powered by <strong>alpha_vantage</strong></li>
+    <li>Powered by <strong>finnhub</strong></li>
+    <li>Powered by <strong>newsapi</strong></li>
+    <li>新闻原文版权归各 publisher 所有</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h4>内容过滤处置记录</h4>
+  <ul>
+    <li>敏感词软改写命中：<strong>0</strong> 处</li>
+    <li>敏感词硬禁用命中：<strong>0</strong> 处</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h4>报告署名</h4>
+  <table class="signoff">
+    <tr><td>生成时间</td><td>2026-06-24T12:48:08.212407+00:00</td></tr>
+    
+    <tr><td>数据源版本</td><td>v1</td></tr>
+    <tr><td>模型版本</td><td>claude-opus-4-7</td></tr>
+    <tr><td>审核状态</td><td>AUTO（MVP 阶段，未经人工复核）</td></tr>
+  </table>
+</div>
+
+<div class="footer">由 Forex Sentiment Monitor（开源）生成于 2026-06-24T12:48:08.212407+00:00 · 仅供研究参考，不构成投资建议</div>
+
+</div>
+
+<script>
+function filterSymbols() {
+  const val = document.getElementById('symbolFilter').value;
+  document.querySelectorAll('.symbol-card').forEach(c => {
+    c.style.display = (!val || c.dataset.sym === val) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

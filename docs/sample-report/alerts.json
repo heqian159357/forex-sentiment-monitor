@@ -1,0 +1,8 @@
+[
+  {
+    "rule": "data_source_failure",
+    "symbol": null,
+    "priority": "low",
+    "message": "数据源失败: newsapi"
+  }
+]

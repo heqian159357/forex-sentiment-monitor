@@ -23,7 +23,7 @@
 ### 方式 1：作为 Claude Code Skill（推荐）
 
 ```bash
-git clone https://github.com/OWNER/forex-sentiment-monitor.git ~/.claude/skills/forex-sentiment-monitor
+git clone https://github.com/heqian159357/forex-sentiment-monitor.git ~/.claude/skills/forex-sentiment-monitor
 cd ~/.claude/skills/forex-sentiment-monitor
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
@@ -37,7 +37,7 @@ python -c "from scripts.config import bootstrap_runtime_dir; bootstrap_runtime_d
 本仓库自带 `.claude-plugin/marketplace.json`，可作为单插件 marketplace 安装：
 
 ```
-/plugin marketplace add OWNER/forex-sentiment-monitor
+/plugin marketplace add heqian159357/forex-sentiment-monitor
 /plugin install forex-sentiment-monitor
 ```
 

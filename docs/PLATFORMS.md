@@ -64,7 +64,7 @@
 
 ### 方式 A：直接 clone 到 skills 目录（最简单）
 ```bash
-git clone https://github.com/<OWNER>/forex-sentiment-monitor.git \
+git clone https://github.com/<heqian159357>/forex-sentiment-monitor.git \
   ~/.claude/skills/forex-sentiment-monitor
 cd ~/.claude/skills/forex-sentiment-monitor
 python -m venv .venv && source .venv/bin/activate
@@ -77,7 +77,7 @@ python -c "from scripts.config import bootstrap_runtime_dir; bootstrap_runtime_d
 1. 把仓库推到 GitHub（公开或私有皆可，私有需配置 git 凭证）。
 2. 让使用方在 Claude Code 内添加 marketplace：
    ```
-   /plugin marketplace add <OWNER>/forex-sentiment-monitor
+   /plugin marketplace add <heqian159357>/forex-sentiment-monitor
    ```
    （也可用完整 git URL；本仓库根目录就是 marketplace，`source: "."`。）
 3. 安装插件：
@@ -88,7 +88,7 @@ python -c "from scripts.config import bootstrap_runtime_dir; bootstrap_runtime_d
 4. 安装后 Claude Code 会把 skill 注册进来，按 `SKILL.md` 的触发词工作。
 
 ### 坑点
-- **`plugin.json` 里的 `OWNER` 占位符要替换**成真实 GitHub owner，否则 homepage/repository 链接失效。
+- **`plugin.json` 里的 `heqian159357` 占位符要替换**成真实 GitHub owner，否则 homepage/repository 链接失效。
 - **Python 依赖不随 plugin 自动安装**。Plugin 机制分发的是 skill 文件，`pip install -r requirements.txt` 和建 venv 仍需在 `SKILL.md` 的 Prerequisites 里引导用户手动跑（本项目已写好）。
 - **API key 千万不要进仓库**。`.env` 放在 `~/.forex-sentiment/`（运行期目录），仓库只提供 `.env.example`。务必确认 `.gitignore` 覆盖了 `.env` 和 `cache/`、`audit.log`。
 - **私有仓库分发**给同事时，对方机器要有 git 访问权限（SSH key / token）。

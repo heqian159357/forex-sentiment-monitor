@@ -1,0 +1,16 @@
+{
+  "status": "ok",
+  "totalResults": 1,
+  "articles": [
+    {
+      "source": {"id": "reuters", "name": "Reuters"},
+      "author": "J. Smith",
+      "title": "Fed officials split on rate cut timing as inflation sticks",
+      "description": "Several Fed speakers signaled...",
+      "url": "https://reuters.com/fed-split",
+      "urlToImage": null,
+      "publishedAt": "2026-04-28T06:30:00Z",
+      "content": "..."
+    }
+  ]
+}

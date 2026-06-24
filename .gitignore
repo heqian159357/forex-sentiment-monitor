@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+.venv/
+venv/
+*.egg-info/
+# runtime / 报告 / 审计（不应进仓库）
+*.log
+audit.log
+forex-sentiment-reports/
+.forex-sentiment/
+.DS_Store

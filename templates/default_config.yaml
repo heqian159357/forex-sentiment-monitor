@@ -1,0 +1,81 @@
+default_symbols: [BTC, ETH, XAUUSD, XAGUSD, EURUSD, USDJPY, GBPUSD, WTI]
+
+symbol_keywords:
+  BTC: [bitcoin, btc, 比特币]
+  ETH: [ethereum, eth, 以太坊, 以太币]
+  XAUUSD: [gold, xau, 黄金, 金价]
+  XAGUSD: [silver, xag, 白银, 银价]
+  EURUSD: [euro, eur/usd, 欧元, eurusd]
+  USDJPY: [yen, usd/jpy, 日元, usdjpy, 日央行, boj]
+  GBPUSD: [pound, sterling, gbp/usd, 英镑, gbpusd, 英央行, boe]
+  WTI: [crude oil, wti, 原油, opec, 石油]
+
+default_window_hours: 24
+max_candidates_for_review: 20
+
+score_weights:
+  claude: 0.6
+  api_only: 0.4
+
+alert_thresholds:
+  extreme_bearish: -0.5
+  extreme_bullish: 0.5
+
+output:
+  report_dir: ~/forex-sentiment-reports
+  cache_dir: ~/.forex-sentiment/cache
+  keep_cache_days: 30
+
+sources:
+  # 免费源：无需任何 API key，开箱即用（默认启用）
+  gdelt:                 # GDELT 2.0 全球新闻，免费且含商用授权
+    enabled: true
+    timeout_seconds: 15
+    retry: 1
+  rss:                   # 直采公开 RSS（CoinDesk/Cointelegraph/Investing/WSJ）
+    enabled: true
+    timeout_seconds: 12
+    retry: 1
+    # feeds: []          # 留空用 client 内置默认；可在此覆盖
+  # 付费/可选源：需各自 API key，默认关闭。填好 .env 后改 enabled: true 即可
+  alpha_vantage:
+    enabled: false
+    timeout_seconds: 15
+    retry: 2
+    rate_limit_per_minute: 5
+    daily_quota: 25
+  finnhub:
+    enabled: false
+    timeout_seconds: 10
+    retry: 2
+    rate_limit_per_minute: 60
+  newsapi:
+    enabled: false
+    timeout_seconds: 10
+    retry: 2
+    daily_quota: 100
+  cryptopanic:           # 加密专属舆情，需免费 token（CRYPTOPANIC_KEY）
+    enabled: false
+    timeout_seconds: 10
+    retry: 1
+
+report_mode: full
+
+notifications:
+  on_alert:
+    wechat_webhook: false
+    email: false
+    log_only: true
+
+# 合规与免责配置
+# report_label / org_name 按需自定义；filter 可关可调
+compliance:
+  org_name: ""                       # 留空则报告不显示组织名
+  report_label: "仅供研究参考 — 不构成投资建议"
+  data_source_version: v1
+  model_version: claude-opus-4-7
+  review_status: AUTO（自动生成，未经人工复核）
+  filter:
+    enabled: true                    # 是否启用敏感词过滤
+    strict: true                     # 命中硬禁用即拦截 render（exit 3）
+    sensitive_words_path: scripts/prompts/sensitive_words.yaml

@@ -1,0 +1,155 @@
+# 舆情监控报告 · {{ run_date }} {{ run_time }}
+
+> **ℹ️ {{ report_label | default("仅供研究参考 — 不构成投资建议") }}**
+>
+> 时间窗口：过去 {{ window_hours }} 小时（{{ window_start }} → {{ window_end }}）
+> 监控 Symbol：{{ symbols | join(", ") }}
+> 报告模式：{{ "精简(Summary)" if summary_mode else "完整(Full)" }}
+
+---
+
+## 一、执行摘要
+
+### 1.1 Symbol 情绪一览
+
+| Symbol | 综合情绪 | 方向 | 相关新闻数 | 告警 |
+|---|---|---|---|---|
+{% for s in symbols_summary -%}
+| {{ s.name }} | {{ "%.2f"|format(s.final_score) }} | {{ s.label_icon }} {{ s.label }} | {{ s.news_count }} | {{ "⚠️" if s.alert else "" }} |
+{% endfor %}
+
+### 1.2 当日三大焦点事件
+
+{% for event in top_events %}
+**{{ loop.index }}. {{ event.title }}**
+
+- 来源：{{ event.source_name }} · {{ event.published_at }}
+- 影响 Symbol：{{ event.affected_symbols | join(", ") if event.affected_symbols else "(无明确影响)" }}
+- 行业解读：{{ event.industry_reason or "(未复核)" }}
+- 综合情感：{{ "%.2f"|format(event.claude_sentiment_score) if event.claude_sentiment_score is not none else "N/A" }} ({{ event.claude_sentiment_label or "-" }}) · Impact: {{ event.impact_level or "-" }}
+{% if event.analysis_detail %}
+- **📖 详细分析**：{{ event.analysis_detail }}
+{% endif %}
+- 原文：[{{ event.url }}]({{ event.url }})
+
+{% endfor %}
+
+### 1.3 数据源健康度
+
+| 数据源 | 状态 | 抓取数量 | 备注 |
+|---|---|---|---|
+{% for src, stat in sources_status.items() -%}
+| {{ src }} | {{ "✅" if stat.ok else "❌" }} | {{ stat.count }} | {{ stat.error or "-" }} |
+{% endfor %}
+
+---
+
+## 二、Symbol 详情
+
+{% for s in symbols_detail %}
+### 2.{{ loop.index }} {{ s.name }}
+
+**综合情绪：{{ s.label_icon }} {{ "%.2f"|format(s.final_score) }} ({{ s.label }})**
+
+**关键驱动：** {{ s.key_drivers | join(" / ") if s.key_drivers else "(无显著驱动)" }}
+
+#### Top 5 关键新闻
+
+| # | 时间 | 来源 | 标题 | API分 | Claude分 | 分歧 |
+|---|---|---|---|---|---|---|
+{% for n in s.top_news -%}
+| {{ loop.index }} | {{ n.published_at_short }} | {{ n.source_name }} | [{{ n.title | truncate(60) }}]({{ n.url }}) | {{ "%.2f"|format(n.api_sentiment_score) if n.api_sentiment_score is not none else "-" }} | {{ "%.2f"|format(n.claude_sentiment_score) if n.claude_sentiment_score is not none else "-" }} | {{ "⚠️" if n.divergence_with_api else "" }} |
+{% endfor %}
+
+{% if s.divergence_notes %}
+**⚠️ 情感分歧要点：**
+
+{% for d in s.divergence_notes %}
+- **{{ d.title | truncate(50) }}**
+  - 分歧原因：{{ d.divergence_note }}
+  {% if d.analysis_detail %}
+  - 判断依据：{{ d.analysis_detail }}
+  {% endif %}
+{% endfor %}
+{% endif %}
+
+{% endfor %}
+
+---
+
+## 三、原始数据附录
+
+### 3.1 信息类型分布
+
+| 类型 | 数量 | 占比 |
+|---|---|---|
+{% for cat, cnt in category_dist.items() -%}
+| {{ cat }} | {{ cnt }} | {{ "%.1f"|format(cnt * 100 / total_raw if total_raw else 0) }}% |
+{% endfor %}
+
+### 3.2 数据源分布
+
+| 源 | 抓取数 |
+|---|---|
+{% for src, cnt in source_dist.items() -%}
+| {{ src }} | {{ cnt }} |
+{% endfor %}
+
+### 3.3 完整新闻列表
+
+<details>
+<summary>点击展开全部 {{ all_articles | length }} 条新闻</summary>
+
+{% for n in all_articles %}
+- `{{ n.published_at_short }}` **[{{ n.source_name }}]** [{{ n.title }}]({{ n.url }}) — API分: {{ "%.2f"|format(n.api_sentiment_score) if n.api_sentiment_score is not none else "-" }}
+{% endfor %}
+
+</details>
+
+---
+
+## 四、告警明细
+
+{% if alerts %}
+{% for a in alerts -%}
+- **{{ a.symbol or "-" }}** 触发 `{{ a.rule }}` — {{ a.message }}
+{% endfor %}
+{% else %}
+本次运行无告警。
+{% endif %}
+
+---
+
+## 五、合规与免责
+
+### 5.1 免责声明
+
+1. 本报告由开源工具 Forex Sentiment Monitor 基于公开新闻与算法模型自动生成，**不构成**任何证券、外汇、贵金属、期货、数字货币或其他金融工具的买卖建议、投资意见或收益保证。
+2. 金融市场存在风险，交易须谨慎。过往市场表现不预示未来结果。使用者应独立判断，并自行承担相应的交易风险与后果。本工具的作者与贡献者对基于本报告作出的任何决策不负任何责任。
+3. 本报告引用的新闻与数据版权归各原始发布方所有。请在所用数据源的服务条款（Terms of Service）允许范围内使用本工具。
+
+### 5.2 数据来源 Attribution
+
+{% for src, stat in sources_status.items() -%}
+- Powered by **{{ src }}**
+{% endfor %}
+- 新闻原文版权归各 publisher 所有
+
+### 5.3 内容过滤处置记录
+
+- 敏感词软改写命中：**{{ filter_rewrites_count | default(0) }}** 处
+- 敏感词硬禁用命中：**{{ filter_blocks_count | default(0) }}** 处（>0 时报告被阻断）
+
+### 5.4 报告署名
+
+| 字段 | 值 |
+|---|---|
+| 生成时间 | {{ generated_at }} |
+{% if org_name %}| 组织 | {{ org_name }} |
+{% endif %}| 数据源版本 | {{ data_source_version | default("v1") }} |
+| 模型版本 | {{ model_version | default("claude-opus-4-7") }} |
+| 审核状态 | {{ review_status | default("AUTO（自动生成，未经人工复核）") }} |
+
+---
+
+*报告由 Forex Sentiment Monitor（开源）生成于 {{ generated_at }} · 仅供研究参考，不构成投资建议*

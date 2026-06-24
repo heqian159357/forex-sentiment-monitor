@@ -1,0 +1,32 @@
+{
+  "items": "2",
+  "feed": [
+    {
+      "title": "Gold prices climb as Fed signals patience",
+      "url": "https://reuters.com/gold-1",
+      "time_published": "20260428T070000",
+      "summary": "Gold extended gains...",
+      "source": "Reuters",
+      "category_within_source": "news",
+      "topics": [{"topic": "Financial Markets", "relevance_score": "0.85"}],
+      "overall_sentiment_score": 0.35,
+      "overall_sentiment_label": "Somewhat-Bullish",
+      "ticker_sentiment": [
+        {"ticker": "FOREX:XAU", "relevance_score": "0.92", "ticker_sentiment_score": "0.40", "ticker_sentiment_label": "Somewhat-Bullish"}
+      ]
+    },
+    {
+      "title": "Bitcoin ETF flows stall",
+      "url": "https://coindesk.com/btc-2",
+      "time_published": "20260428T080000",
+      "summary": "Inflows slowed...",
+      "source": "CoinDesk",
+      "category_within_source": "news",
+      "overall_sentiment_score": -0.15,
+      "overall_sentiment_label": "Neutral",
+      "ticker_sentiment": [
+        {"ticker": "CRYPTO:BTC", "relevance_score": "0.95", "ticker_sentiment_score": "-0.20", "ticker_sentiment_label": "Neutral"}
+      ]
+    }
+  ]
+}

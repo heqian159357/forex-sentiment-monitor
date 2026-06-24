@@ -1,0 +1,24 @@
+[
+  {
+    "category": "crypto",
+    "datetime": 1777359600,
+    "headline": "Ethereum upgrade boosts staking yields",
+    "id": 1001,
+    "image": "",
+    "related": "ETH",
+    "source": "Reuters",
+    "summary": "Validators see higher yields after the Pectra upgrade.",
+    "url": "https://reuters.com/eth-upgrade"
+  },
+  {
+    "category": "general",
+    "datetime": 1777363200,
+    "headline": "BOJ hints at yen intervention",
+    "id": 1002,
+    "image": "",
+    "related": "",
+    "source": "Bloomberg",
+    "summary": "Japanese officials warned against excessive volatility in USD/JPY.",
+    "url": "https://bloomberg.com/boj-intervene"
+  }
+]

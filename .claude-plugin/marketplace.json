@@ -1,0 +1,17 @@
+{
+  "name": "forex-sentiment-marketplace",
+  "owner": {
+    "name": "forex-sentiment-monitor contributors"
+  },
+  "metadata": {
+    "description": "Marketplace hosting the Forex Sentiment Monitor Claude Code plugin.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "forex-sentiment-monitor",
+      "source": ".",
+      "description": "Key-less multi-source forex/crypto news sentiment monitor with per-symbol industry-view analysis and audit log."
+    }
+  ]
+}

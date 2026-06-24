@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>舆情监控 · {{ run_date }} {{ run_time }}</title>
+<style>
+  :root {
+    --bg: #0e1117;
+    --card: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #d4af37;
+    --red: #f85149;
+    --green: #3fb950;
+    --yellow: #d29922;
+  }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, "SF Mono", Menlo, monospace; margin: 0; padding: 24px; }
+  .container { max-width: 1100px; margin: 0 auto; }
+  h1 { color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+  h2 { color: var(--accent); margin-top: 32px; }
+  h3 { color: var(--text); }
+  .meta { color: var(--muted); font-size: 14px; margin-bottom: 16px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin: 12px 0; }
+  .sticky-summary { position: sticky; top: 0; background: var(--bg); padding: 12px 0; z-index: 10; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+  th, td { padding: 8px 12px; border-bottom: 1px solid var(--border); text-align: left; font-size: 14px; }
+  th { color: var(--accent); font-weight: 600; cursor: pointer; }
+  tr:hover { background: rgba(212,175,55,0.05); }
+  .bar-container { display: flex; flex-direction: column; gap: 8px; }
+  .bar-row { display: grid; grid-template-columns: 80px 1fr 80px 40px; align-items: center; gap: 8px; }
+  .bar-track { height: 20px; background: var(--border); border-radius: 4px; position: relative; overflow: hidden; }
+  .bar-fill { height: 100%; position: absolute; top: 0; }
+  .bar-center { position: absolute; left: 50%; top: 0; width: 1px; height: 100%; background: var(--muted); }
+  .alert { animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+  .divergence-card { border-left: 3px solid var(--yellow); }
+  .divergence-card h4 { margin-top: 0; color: var(--yellow); }
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .compare .side { background: var(--bg); padding: 10px; border-radius: 4px; }
+  .bullish { color: var(--green); }
+  .bearish { color: var(--red); }
+  .neutral { color: var(--muted); }
+  .filter-bar { margin: 16px 0; }
+  .filter-bar select { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 6px 10px; border-radius: 4px; }
+  details summary { cursor: pointer; color: var(--accent); padding: 8px 0; }
+  a { color: #58a6ff; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .footer { text-align: center; color: var(--muted); margin-top: 48px; font-size: 12px; }
+  .tier-banner { background: rgba(212,175,55,0.12); border: 1px solid var(--accent); color: var(--accent); padding: 10px 14px; border-radius: 6px; margin: 16px 0; font-weight: 600; letter-spacing: 0.5px; }
+  .disclaimer { background: var(--card); border-left: 3px solid var(--red); padding: 16px 20px; margin: 24px 0; line-height: 1.7; font-size: 13px; }
+  .disclaimer h3 { color: var(--red); margin-top: 0; }
+  .disclaimer ol { padding-left: 20px; }
+  .signoff td:first-child { color: var(--muted); width: 160px; }
+  body::before {
+    content: "仅供研究参考 · 不构成投资建议";
+    position: fixed; top: 50%; left: 50%;
+    transform: translate(-50%, -50%) rotate(-30deg);
+    font-size: 76px; color: rgba(212,175,55,0.05);
+    pointer-events: none; z-index: 0; white-space: nowrap;
+    font-weight: 700;
+  }
+  .container { position: relative; z-index: 1; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="sticky-summary">
+  <h1>舆情监控 · {{ run_date }} {{ run_time }}</h1>
+  <div class="tier-banner">ℹ️ {{ report_label | default("仅供研究参考 — 不构成投资建议") }}</div>
+  <div class="meta">
+    时间窗口 {{ window_hours }}h · 监控 {{ symbols | join(", ") }} ·
+    <a href="{{ md_link }}">↓ Markdown</a>
+  </div>
+</div>
+
+<div class="card">
+  <h3>Symbol 情绪分布</h3>
+  <div class="bar-container">
+    {% for s in symbols_summary %}
+    <div class="bar-row" data-symbol="{{ s.name }}">
+      <div>{{ s.name }}</div>
+      <div class="bar-track">
+        <div class="bar-center"></div>
+        <div class="bar-fill {% if s.alert %}alert{% endif %}"
+             style="
+              {% if s.final_score >= 0 %}
+              left: 50%; width: {{ s.final_score * 50 }}%; background: var(--green);
+              {% else %}
+              right: 50%; width: {{ -s.final_score * 50 }}%; background: var(--red);
+              {% endif %}
+             "></div>
+      </div>
+      <div>{{ "%.2f"|format(s.final_score) }}</div>
+      <div>{% if s.alert %}⚠️{% endif %}</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% if divergence_items %}
+<h2>情感分歧（API vs 行业视角）</h2>
+{% for d in divergence_items %}
+<div class="card divergence-card">
+  <h4>{{ d.title }}</h4>
+  <div class="meta">{{ d.source_name }} · {{ d.published_at }} · 影响: {{ d.affected_symbols | join(", ") }}</div>
+  <div class="compare">
+    <div class="side">
+      <div class="meta">API 判断</div>
+      <div class="{{ 'neutral' if d.api_sentiment_score is none else ('bearish' if d.api_sentiment_score < 0 else ('bullish' if d.api_sentiment_score > 0 else 'neutral')) }}">
+        {{ "%.2f"|format(d.api_sentiment_score) if d.api_sentiment_score is not none else "N/A" }} ({{ d.api_sentiment_label or "-" }})
+      </div>
+    </div>
+    <div class="side">
+      <div class="meta">Claude 行业视角</div>
+      <div class="{{ 'bearish' if d.claude_sentiment_score < 0 else ('bullish' if d.claude_sentiment_score > 0 else 'neutral') }}">
+        {{ "%.2f"|format(d.claude_sentiment_score) }} ({{ d.claude_sentiment_label }})
+      </div>
+    </div>
+  </div>
+  <p><strong>分歧原因：</strong>{{ d.divergence_note }}</p>
+  {% if d.analysis_detail %}
+  <details style="margin-top:10px;">
+    <summary style="cursor:pointer; color:var(--accent);">📖 判断依据（详细分析）</summary>
+    <p style="margin-top:8px; color:var(--muted); line-height:1.7;">{{ d.analysis_detail }}</p>
+  </details>
+  {% endif %}
+</div>
+{% endfor %}
+{% endif %}
+
+<h2>当日焦点事件</h2>
+{% for event in top_events %}
+<div class="card">
+  <h4>{{ loop.index }}. {{ event.title }}</h4>
+  <div class="meta">{{ event.source_name }} · {{ event.published_at }}</div>
+  <p><strong>行业解读：</strong>{{ event.industry_reason or "(未复核)" }}</p>
+  <div class="meta">影响: {{ event.affected_symbols | join(", ") if event.affected_symbols else "-" }}
+     · 情感: {{ "%.2f"|format(event.claude_sentiment_score) if event.claude_sentiment_score is not none else "N/A" }}
+     · Impact: {{ event.impact_level or "-" }}</div>
+  {% if event.analysis_detail %}
+  <details style="margin-top:8px;">
+    <summary style="cursor:pointer; color:var(--accent);">📖 判断依据（详细分析）</summary>
+    <p style="margin-top:8px; color:var(--muted); line-height:1.7;">{{ event.analysis_detail }}</p>
+  </details>
+  {% endif %}
+  <a href="{{ event.url }}" target="_blank" style="display:inline-block; margin-top:10px;">查看原文 →</a>
+</div>
+{% endfor %}
+
+<h2>Symbol 详情</h2>
+<div class="filter-bar">
+  筛选 Symbol:
+  <select id="symbolFilter" onchange="filterSymbols()">
+    <option value="">全部</option>
+    {% for s in symbols_detail %}<option value="{{ s.name }}">{{ s.name }}</option>{% endfor %}
+  </select>
+</div>
+
+{% for s in symbols_detail %}
+<div class="card symbol-card" data-sym="{{ s.name }}">
+  <h3>{{ s.name }} · <span class="{{ 'bullish' if s.final_score > 0 else ('bearish' if s.final_score < 0 else 'neutral') }}">{{ "%.2f"|format(s.final_score) }} ({{ s.label }})</span></h3>
+  <div class="meta">关键驱动: {{ s.key_drivers | join(" / ") if s.key_drivers else "-" }}</div>
+  <table>
+    <thead><tr><th>#</th><th>时间</th><th>来源</th><th>标题</th><th>API</th><th>Claude</th><th>分歧</th></tr></thead>
+    <tbody>
+    {% for n in s.top_news %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td>{{ n.published_at_short }}</td>
+      <td>{{ n.source_name }}</td>
+      <td><a href="{{ n.url }}" target="_blank">{{ n.title | truncate(60) }}</a></td>
+      <td>{{ "%.2f"|format(n.api_sentiment_score) if n.api_sentiment_score is not none else "-" }}</td>
+      <td>{{ "%.2f"|format(n.claude_sentiment_score) if n.claude_sentiment_score is not none else "-" }}</td>
+      <td>{% if n.divergence_with_api %}⚠️{% endif %}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endfor %}
+
+<h2>附录</h2>
+<div class="card">
+  <h4>数据源健康度</h4>
+  <table>
+    <thead><tr><th>源</th><th>状态</th><th>数量</th><th>备注</th></tr></thead>
+    <tbody>
+    {% for src, stat in sources_status.items() %}
+    <tr><td>{{ src }}</td><td>{% if stat.ok %}✅{% else %}❌{% endif %}</td><td>{{ stat.count }}</td><td>{{ stat.error or "-" }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="card">
+  <details>
+    <summary>全部 {{ all_articles | length }} 条原始新闻</summary>
+    <ul>
+    {% for n in all_articles %}
+    <li><code>{{ n.published_at_short }}</code> [{{ n.source_name }}] <a href="{{ n.url }}" target="_blank">{{ n.title }}</a></li>
+    {% endfor %}
+    </ul>
+  </details>
+</div>
+
+<h2>合规与免责</h2>
+<div class="disclaimer">
+  <h3>免责声明</h3>
+  <ol>
+    <li>本报告由开源工具 Forex Sentiment Monitor 基于公开新闻与算法模型自动生成，<strong>不构成</strong>任何证券、外汇、贵金属、期货、数字货币或其他金融工具的买卖建议、投资意见或收益保证。</li>
+    <li>金融市场存在风险，交易须谨慎。过往市场表现不预示未来结果。使用者应独立判断，并自行承担相应的交易风险与后果。本工具的作者与贡献者对基于本报告作出的任何决策不负任何责任。</li>
+    <li>本报告引用的新闻与数据版权归各原始发布方所有。请在所用数据源的服务条款允许范围内使用本工具。</li>
+  </ol>
+</div>
+
+<div class="card">
+  <h4>数据来源 Attribution</h4>
+  <ul>
+    {% for src, stat in sources_status.items() %}<li>Powered by <strong>{{ src }}</strong></li>
+    {% endfor %}<li>新闻原文版权归各 publisher 所有</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h4>内容过滤处置记录</h4>
+  <ul>
+    <li>敏感词软改写命中：<strong>{{ filter_rewrites_count | default(0) }}</strong> 处</li>
+    <li>敏感词硬禁用命中：<strong>{{ filter_blocks_count | default(0) }}</strong> 处</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h4>报告署名</h4>
+  <table class="signoff">
+    <tr><td>生成时间</td><td>{{ generated_at }}</td></tr>
+    {% if org_name %}<tr><td>组织</td><td>{{ org_name }}</td></tr>{% endif %}
+    <tr><td>数据源版本</td><td>{{ data_source_version | default("v1") }}</td></tr>
+    <tr><td>模型版本</td><td>{{ model_version | default("claude-opus-4-7") }}</td></tr>
+    <tr><td>审核状态</td><td>{{ review_status | default("AUTO（自动生成，未经人工复核）") }}</td></tr>
+  </table>
+</div>
+
+<div class="footer">由 Forex Sentiment Monitor（开源）生成于 {{ generated_at }} · 仅供研究参考，不构成投资建议</div>
+
+</div>
+
+<script>
+function filterSymbols() {
+  const val = document.getElementById('symbolFilter').value;
+  document.querySelectorAll('.symbol-card').forEach(c => {
+    c.style.display = (!val || c.dataset.sym === val) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

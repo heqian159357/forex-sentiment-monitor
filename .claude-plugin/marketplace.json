@@ -1,17 +1,35 @@
 {
-  "name": "forex-sentiment-marketplace",
+  "name": "forex-sentiment-monitor",
+  "description": "多源新闻情绪监控（外汇/贵金属/加密）· 开箱即用无需 API key（GDELT+RSS）· Claude Code Skill / Plugin",
+  "version": "1.0.0",
   "owner": {
-    "name": "forex-sentiment-monitor contributors"
-  },
-  "metadata": {
-    "description": "Marketplace hosting the Forex Sentiment Monitor Claude Code plugin.",
-    "version": "1.0.0"
+    "name": "heqian159357",
+    "url": "https://github.com/heqian159357"
   },
   "plugins": [
     {
       "name": "forex-sentiment-monitor",
-      "source": ".",
-      "description": "Key-less multi-source forex/crypto news sentiment monitor with per-symbol industry-view analysis and audit log."
+      "displayName": "Forex Sentiment Monitor",
+      "source": {
+        "source": "github",
+        "repo": "heqian159357/forex-sentiment-monitor"
+      },
+      "description": "Key-less multi-source forex/crypto news sentiment monitor with per-symbol industry-view analysis and an append-only audit log.",
+      "version": "1.0.0",
+      "author": {
+        "name": "heqian159357"
+      },
+      "homepage": "https://github.com/heqian159357/forex-sentiment-monitor",
+      "repository": "https://github.com/heqian159357/forex-sentiment-monitor",
+      "license": "MIT",
+      "keywords": [
+        "forex",
+        "crypto",
+        "sentiment",
+        "news",
+        "finance",
+        "gdelt"
+      ]
     }
   ]
 }

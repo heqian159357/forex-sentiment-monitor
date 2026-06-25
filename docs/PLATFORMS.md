@@ -74,25 +74,42 @@ python -c "from scripts.config import bootstrap_runtime_dir; bootstrap_runtime_d
 之后在 Claude Code 里说「跑舆情监控」即可触发。更新就是 `git pull`。
 
 ### 方式 B：作为 Claude Code Plugin / Marketplace 分发
-1. 把仓库推到 GitHub（公开或私有皆可，私有需配置 git 凭证）。
-2. 让使用方在 Claude Code 内添加 marketplace：
+
+本仓库**自身就是一个 marketplace**（根目录有 `.claude-plugin/marketplace.json` + `.claude-plugin/plugin.json`）。任何人都能这样装——**无需经过任何官方审批**：
+
+1. 添加本仓库为 marketplace：
    ```
-   /plugin marketplace add <heqian159357>/forex-sentiment-monitor
+   /plugin marketplace add heqian159357/forex-sentiment-monitor
    ```
-   （也可用完整 git URL；本仓库根目录就是 marketplace，`source: "."`。）
-3. 安装插件：
+2. 安装插件（marketplace 名与插件名一致，都是 `forex-sentiment-monitor`）：
    ```
-   /plugin install forex-sentiment-monitor@forex-sentiment-marketplace
+   /plugin install forex-sentiment-monitor@forex-sentiment-monitor
    ```
    或交互式：`/plugin` 进入菜单 → 选 marketplace → 安装。
-4. 安装后 Claude Code 会把 skill 注册进来，按 `SKILL.md` 的触发词工作。
+3. 安装后 Claude Code 把 skill 注册进来，按 `SKILL.md` 的触发词工作。
+
+> Claude Code 的插件市场是**去中心化**的：每个仓库自带 `marketplace.json` 即可被 `/plugin marketplace add` 添加，不存在"中央注册"这一步。
+
+### 进官方 / 社区精选列表（可选，提升可发现性）
+
+Anthropic 的 `claude-plugins-official` 由官方自行甄选，**无公开申请入口**。想进**半官方的社区市场** `anthropics/claude-plugins-community`（通过自动校验 + 安全审查后会被收录），流程：
+
+1. 本地校验（必须零错误）：
+   ```bash
+   claude plugin validate .
+   ```
+2. 个人作者走 Console 提交表单：**https://platform.claude.com/plugins/submit**
+   （Team/企业组织走 https://claude.ai/admin-settings/directory/submissions/plugins/new）
+3. 通过安全审查后，你的插件会被 pin 到 `anthropics/claude-plugins-community` 仓库的某个 commit SHA，后续你 push 新提交时 CI 自动更新 pin。公开目录每晚同步，收录到出现在列表可能有延迟。
+
+> 提交前确保仓库已公开、`marketplace.json` 在 main 分支、`claude plugin validate .` 通过。
 
 ### 坑点
-- **`plugin.json` 里的 `heqian159357` 占位符要替换**成真实 GitHub owner，否则 homepage/repository 链接失效。
-- **Python 依赖不随 plugin 自动安装**。Plugin 机制分发的是 skill 文件，`pip install -r requirements.txt` 和建 venv 仍需在 `SKILL.md` 的 Prerequisites 里引导用户手动跑（本项目已写好）。
-- **API key 千万不要进仓库**。`.env` 放在 `~/.forex-sentiment/`（运行期目录），仓库只提供 `.env.example`。务必确认 `.gitignore` 覆盖了 `.env` 和 `cache/`、`audit.log`。
-- **私有仓库分发**给同事时，对方机器要有 git 访问权限（SSH key / token）。
-- 版本管理：升级 `plugin.json` 的 `version` 字段并打 tag，方便回滚。
+- **`plugin.json` / `marketplace.json` 的 owner 与 repo 必须是真实 GitHub 账号**（本仓库已设为 `heqian159357`）。
+- **`source` 必须是对象而非字符串**：社区市场要求 `"source": {"source": "github", "repo": "owner/repo"}`，不能写 `"source": "."`（本仓库已修正）。
+- **Python 依赖不随 plugin 自动安装**。Plugin 分发的是 skill 文件，建 venv + `pip install -r requirements.txt` 仍由 `SKILL.md` 的 Prerequisites 引导用户手动跑（已写好）。
+- **API key 千万不要进仓库**。`.env` 放运行期目录 `~/.forex-sentiment/`，仓库只提供 `.env.example`；`.gitignore` 已覆盖 `.env` / `cache/` / `audit.log`。
+- 版本管理：升级 `plugin.json` 的 `version` 字段并打 git tag，方便回滚。
 
 ---
 
@@ -175,7 +192,18 @@ RSS 源同理，但 RSS 返回 XML，Coze 的 HTTP 工具对 XML 解析较弱，
 | 节点间数据 | Dify 的**变量传递**（上游节点 output 作为下游 input 引用） |
 | `audit.log` | 代码节点写内网文件 / 调内部审计 API |
 
-### 分步骤说明
+### 最快路径：导入现成 DSL（推荐先试这个）
+
+仓库已提供一个可直接导入的精简版工作流：[`integrations/dify/forex-sentiment-workflow.yml`](../integrations/dify/forex-sentiment-workflow.yml)（开始 → GDELT 抓取 → 去重匹配 → LLM 情绪分析 → 结束）。
+
+1. 部署 Dify（见下方 Step 1）
+2. Dify 控制台 →「创建应用」→「导入 DSL 文件」→ 上传该 yml
+3. **必改**：打开 `行业视角情绪分析` LLM 节点，把模型换成你工作区里装好 key 的模型
+4. 运行，输入品种（如 `BTC,ETH,XAUUSD`）+ 时间窗（如 `24`）
+
+详见 [`integrations/dify/README.md`](../integrations/dify/README.md)。下面是从零手搭完整版的分步骤。
+
+### 分步骤说明（手搭完整版）
 
 **Step 1 — 起一个自托管 Dify**
 用官方 docker-compose 起一套 Dify（含 API / Worker / 沙箱）。沙箱服务（dify-sandbox）是 Python/Node 代码节点的运行环境，要确认它能联通外网（抓 GDELT/RSS）或你的内网代理。

@@ -129,7 +129,12 @@ audit.py             append-only 决策链路审计日志
 
 ## 🌐 部署到其他平台
 
-除 Claude Code 外，本工具的流水线也可移植到 Coze / Dify 等平台，详见 [docs/PLATFORMS.md](docs/PLATFORMS.md)。
+除 Claude Code 外，本工具的流水线也可移植到 Coze / Dify 等平台：
+
+- **Dify（自托管）**：仓库自带可导入的工作流 DSL → [integrations/dify/](integrations/dify/)
+- **Coze / 其他**：移植映射与分步骤见 [docs/PLATFORMS.md](docs/PLATFORMS.md)
+
+> 进 Claude 社区插件市场（可选）：`claude plugin validate .` 通过后，到 https://platform.claude.com/plugins/submit 提交。详见 PLATFORMS.md §2。
 
 ## 🧪 测试
 

@@ -1,9 +1,12 @@
 {
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "forex-sentiment-monitor",
+  "displayName": "Forex Sentiment Monitor",
   "version": "1.0.0",
   "description": "Multi-source sentiment monitoring for forex, precious metals, and crypto. Works key-less out of the box (GDELT + RSS); optional Alpha Vantage / Finnhub / NewsAPI / CryptoPanic. Outputs Markdown + HTML reports with per-symbol industry-view analysis and an append-only audit log.",
   "author": {
-    "name": "forex-sentiment-monitor contributors"
+    "name": "heqian159357",
+    "url": "https://github.com/heqian159357"
   },
   "homepage": "https://github.com/heqian159357/forex-sentiment-monitor",
   "repository": "https://github.com/heqian159357/forex-sentiment-monitor",

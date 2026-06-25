@@ -1,0 +1,165 @@
+version: 0.6.0
+kind: app
+app:
+  name: Forex Sentiment Monitor
+  mode: workflow
+  icon: "📰"
+  icon_type: emoji
+  icon_background: '#FFEAD5'
+  description: 抓取 GDELT 全球新闻并做行业视角情绪分析（外汇/贵金属/加密）
+  use_icon_as_answer_icon: false
+workflow:
+  features:
+    file_upload:
+      image: {enabled: false, number_limits: 3, transfer_methods: [local_file, remote_url]}
+    opening_statement: ''
+    retriever_resource: {enabled: false}
+    sensitive_word_avoidance: {enabled: false}
+    speech_to_text: {enabled: false}
+    suggested_questions: []
+    suggested_questions_after_answer: {enabled: false}
+    text_to_speech: {enabled: false, language: '', voice: ''}
+  graph:
+    viewport: {x: 0, y: 0, zoom: 0.8}
+    nodes:
+    - id: 'start1'
+      type: custom
+      position: {x: 80, y: 220}
+      positionAbsolute: {x: 80, y: 220}
+      width: 244
+      height: 140
+      sourcePosition: right
+      targetPosition: left
+      selected: false
+      data:
+        type: start
+        title: 开始
+        desc: 输入监控品种与时间窗
+        selected: false
+        variables:
+        - {variable: symbols, label: 监控品种(逗号分隔,如 BTC,ETH,XAUUSD), type: text-input, required: true, max_length: 64, options: []}
+        - {variable: hours, label: 时间窗(小时), type: number, required: true, options: []}
+    - id: 'http1'
+      type: custom
+      position: {x: 380, y: 220}
+      positionAbsolute: {x: 380, y: 220}
+      width: 244
+      height: 170
+      sourcePosition: right
+      targetPosition: left
+      selected: false
+      data:
+        type: http-request
+        title: GDELT 抓取
+        desc: 免费、无需 key
+        method: get
+        url: https://api.gdeltproject.org/api/v2/doc/doc
+        headers: ''
+        params: "query:({{#start1.symbols#}})\nmode:ArtList\nformat:json\nmaxrecords:50\ntimespan:{{#start1.hours#}}h\nsort:datedesc"
+        authorization: {type: no-auth, config: null}
+        body: {type: none, data: ''}
+        variables: []
+    - id: 'code1'
+      type: custom
+      position: {x: 680, y: 220}
+      positionAbsolute: {x: 680, y: 220}
+      width: 244
+      height: 90
+      sourcePosition: right
+      targetPosition: left
+      selected: false
+      data:
+        type: code
+        title: 去重+品种匹配
+        desc: 纯解析,不联网
+        code_language: python3
+        code: |
+          def main(raw: str, symbols: str) -> dict:
+              import json
+              try:
+                  data = json.loads(raw) if raw else {}
+              except Exception:
+                  data = {}
+              arts = data.get("articles", [])
+              syms = [s.strip().upper() for s in symbols.split(",") if s.strip()]
+              seen, out = set(), []
+              for a in arts:
+                  url = a.get("url") or ""
+                  if not url or url in seen:
+                      continue
+                  seen.add(url)
+                  title = a.get("title") or ""
+                  hit = [s for s in syms if s in title.upper()]
+                  out.append({
+                      "title": title,
+                      "url": url,
+                      "domain": a.get("domain", ""),
+                      "seendate": a.get("seendate", ""),
+                      "tickers": hit,
+                  })
+              return {"news": out, "count": len(out)}
+        variables:
+        - {variable: raw, value_selector: ['http1', 'body']}
+        - {variable: symbols, value_selector: ['start1', 'symbols']}
+        outputs:
+          news: {type: 'array[object]', children: null}
+          count: {type: number, children: null}
+    - id: 'llm1'
+      type: custom
+      position: {x: 980, y: 220}
+      positionAbsolute: {x: 980, y: 220}
+      width: 244
+      height: 140
+      sourcePosition: right
+      targetPosition: left
+      selected: false
+      data:
+        type: llm
+        title: 行业视角情绪分析
+        desc: 输出 score/label/传导链
+        model:
+          provider: langgenius/openai/openai
+          name: gpt-4o
+          mode: chat
+          completion_params: {temperature: 0.3}
+        prompt_template:
+        - id: 11111111-1111-1111-1111-111111111111
+          role: system
+          text: |
+            你是外汇/贵金属/加密资产的资深舆情分析师。对给定新闻逐条做行业视角情绪复核。
+            规则：
+            - 用行业视角而非词典法判断，纠正算法对无关新闻的误判
+            - 每条给出 claude_sentiment_score（-1.0~1.0）、label（Bearish/Somewhat-Bearish/Neutral/Somewhat-Bullish/Bullish）
+            - industry_reason 必须含 X→Y→Z 因果传导链
+            - 标注 impact_level（high/medium/low）
+            - 禁止输出任何"买入/卖出/必涨/保证收益"等投资建议性措辞
+            最终输出 JSON 数组，每个元素含 title/url/claude_sentiment_score/label/industry_reason/impact_level。
+            本报告仅供研究参考，不构成投资建议。
+        - id: 22222222-2222-2222-2222-222222222222
+          role: user
+          text: "监控品种：{{#start1.symbols#}}\n新闻列表（{{#code1.count#}} 条）：\n{{#code1.news#}}"
+        context: {enabled: false, variable_selector: []}
+        vision: {enabled: false}
+        variables: []
+    - id: 'end1'
+      type: custom
+      position: {x: 1280, y: 220}
+      positionAbsolute: {x: 1280, y: 220}
+      width: 244
+      height: 110
+      sourcePosition: right
+      targetPosition: left
+      selected: false
+      data:
+        type: end
+        title: 结束
+        desc: ''
+        outputs:
+        - {variable: report, value_selector: ['llm1', 'text']}
+        - {variable: news_count, value_selector: ['code1', 'count']}
+    edges:
+    - {id: 'e1', source: 'start1', target: 'http1', sourceHandle: source, targetHandle: target, type: custom, data: {sourceType: start, targetType: http-request}}
+    - {id: 'e2', source: 'http1', target: 'code1', sourceHandle: source, targetHandle: target, type: custom, data: {sourceType: http-request, targetType: code}}
+    - {id: 'e3', source: 'code1', target: 'llm1', sourceHandle: source, targetHandle: target, type: custom, data: {sourceType: code, targetType: llm}}
+    - {id: 'e4', source: 'llm1', target: 'end1', sourceHandle: source, targetHandle: target, type: custom, data: {sourceType: llm, targetType: end}}
+dependencies: []
